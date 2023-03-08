@@ -6,13 +6,80 @@
   height: 40vmin;
   pointer-events: none;
 }
-
+.moveButton{
+  background-color:pink;
+  height:30px;
+  margin-left: 10px;
+}
+.listTitle{
+  font-size: 40px ;
+  margin-left:30px;
+}
+.li{
+ font-size: 0px;
+}
+.input{
+  height:40px;
+  margin-top:30px;
+  margin-left:30px;
+  border: 3px solid pink;
+  border-color: pink;
+}
+.avatar {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  margin-bottom:10px;
+  display:'block';
+  margin-left:-30;
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
 }
 
+.right-bar {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 50px;
+  left: 50%;
+  margin-left: '50%';
+  z-index: 9999;
+  margin-top: 90px;
+}
+.description{
+  font-size: 14px;
+  margin-bottom:12px;
+  margin-left:20px;
+  font-weight: bold;
+}
+.title{
+  font-size: 25px;
+  margin-bottom:12px;
+  margin-left:30px;
+  font-weight: bold;
+}
+.img{
+  width: 100px;
+  height: 100px;
+  margin-bottom:10px;
+  display:'block';
+  margin-left:-30;
+}
+.square {
+  border: 3px solid black;
+  font-weight: bold;
+  min-height:300px;
+  max-height: 500px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
+  border-block-color: pink;
+  background-color: whitesmoke;
+  width: 550px;
+}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
