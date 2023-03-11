@@ -50,19 +50,20 @@ function App() {
           {list.map((item) => (
             <li className='li' key={item.id} >
            <div className='square' >
-           <div> <button onClick={()=>
-            moveToWatched(item.id) }
-            className='moveButton' >{addRemoveButton}</button></div>
-            <li className="title" >{item.title} </li>
-          <ul><img
+           <img
             className="avatar"
             src={item.poster}
             alt='MovieImage'
-          />
-          </ul >
-          <li className='description'> {item.overview}</li>
-          <li className='description' >{item.genres.join(",")}</li>
-          <li className='description'>{item.release_date}</li>
+          /> 
+           <div className='overlay'>
+        <div className="description">Overview: <br></br> {item.overview}</div>
+        <div className="description">Genres: <br></br> {item.genres.join(",")}</div>
+        <div className="description">Release_date: <br></br> {item.release_date}</div>
+      </div >
+      <div className="title" >{item.title} </div>
+      <button onClick={()=>
+            moveToWatched(item.id) }
+            className='moveButton' >{addRemoveButton}</button>
          </div>
           </li>
           ))}
@@ -70,16 +71,17 @@ function App() {
       )}</div>);
   }
   return (
-    <div>
+    <div> 
+      <div className='header'>
       <input
       placeholder="search"
       className='input'
       type="text"
       value={searchQuery}
-      onChange={(e) => setSearchQuery(e.target.value)} />
+      onChange={(e) => setSearchQuery(e.target.value)} /></div>
 
-      <CreateLists
-      listTitle={"To Watch List"}
+      <CreateLists 
+      listTitle={"To Watch List:"}
       data={data}
       list={filteredList}
       addRemoveButton={"Watched"}
@@ -87,8 +89,8 @@ function App() {
       />
 
       <div  className="right-bar" >
-      <CreateLists
-      listTitle={"Watched List"}
+      <CreateLists 
+      listTitle={"Watched List:"}
       data={listId}
       list={listId}
       addRemoveButton={"Remove"}
