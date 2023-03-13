@@ -1,3 +1,4 @@
+/// <reference types="@types/babel__template" />
 export interface MovieData {
   id: number
   title: string

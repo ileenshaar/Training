@@ -7,22 +7,27 @@
   pointer-events: none;
 }
 
-.listTitle{
-  font-size: 40px ;
-  margin-left:40px;
-  font-family:Georgia, 'Times New Roman', Times, serif;
+.Scroll {
+  height: 1000px;
+  overflow-x: hidden;
+}
+
+.listTitle {
+  font-size: 40px;
+  margin-left: 40px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
   display: inline-block;
-  background-color: rgb(237, 94, 94)
+  background-color: rgb(237, 94, 94);
 }
-.li{
- font-size: 0px;
+.li {
+  font-size: 0px;
 }
-.input{
-  height:50px;
+.input {
+  height: 50px;
   width: 400px;
   font-size: 15px;
   size: 15px;
-  margin-top:30px;
+  margin-top: 30px;
   display: flex;
   border: 4px solid black;
 }
@@ -35,7 +40,7 @@
   height: 100%;
   width: 100%;
   opacity: 0;
-  transition: .5s ease;
+  transition: 0.5s ease;
   background-color: #3b3e3fb7;
 }
 
@@ -43,8 +48,7 @@
   opacity: 1;
 }
 .avatar {
-  
-  margin-bottom:15px;
+  margin-bottom: 15px;
   display: block;
   width: 100%;
   height: auto;
@@ -70,9 +74,9 @@
   color: white;
   font-size: 30px;
 }
-.moveButton{
-  background-color:rgba(28, 1, 6, 0.748);
-  height:40px;
+.moveButton {
+  background-color: rgba(28, 1, 6, 0.748);
+  height: 40px;
   position: absolute;
   left: 0;
   top: 0;
@@ -81,17 +85,17 @@
   font-size: 17px;
   border-color: aliceblue;
 }
-.description{
+.description {
   font-size: 20px;
   max-width: 500px;
   margin-top: 30px;
   text-align: center;
   position: relative;
   color: rgb(244, 240, 240);
-  font-family:Georgia, 'Times New Roman', Times, serif;
+  font-family: Georgia, 'Times New Roman', Times, serif;
 }
-.title{
-  font-family:Georgia, 'Times New Roman', Times, serif;
+.title {
+  font-family: Georgia, 'Times New Roman', Times, serif;
   font-size: 30px;
   font-weight: bold;
   color: rgb(55, 9, 9);
