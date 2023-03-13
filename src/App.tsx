@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { fetchMovies, movieData } from './List'
+import { fetchMovies, movieData } from './api'
 import { MovieData } from './types'
-import { MovieList } from './MovieList'
+import { MovieList } from './components/MovieList'
 import './App.css'
 
 export const App = () => {

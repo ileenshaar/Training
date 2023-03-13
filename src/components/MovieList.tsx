@@ -1,4 +1,4 @@
-import { MovieData } from './types'
+import { MovieData } from '../types'
 import React, { useState, useEffect } from 'react'
 
 interface MovieListProps {
@@ -24,6 +24,7 @@ export const MovieList: React.FC<MovieListProps> = ({
     )
     setFilteredList(filteredList)
   }, [searchQuery, list])
+
   return (
     <div>
       <p className="listTitle">{listTitle}</p>
