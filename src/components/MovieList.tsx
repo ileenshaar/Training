@@ -1,5 +1,6 @@
 import { MovieData } from '../types'
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
+import './styles.scss'
 
 interface MovieListProps {
   listTitle: string
@@ -17,21 +18,22 @@ export const MovieList: React.FC<MovieListProps> = ({
   searchQuery
 }) => {
   const [filteredList, setFilteredList] = useState(list.slice(0, 10))
+
   const containerRef = useRef<HTMLDivElement>(null)
 
-  const handleScroll = () => {
+  const handleScroll = useCallback(() => {
     const container = containerRef.current
+
     if (container) {
       const { scrollTop, scrollHeight, clientHeight } = container
       if (scrollTop + clientHeight >= scrollHeight) {
-        const nextItems = list.slice(
-          filteredList.length,
-          filteredList.length + 10
-        )
-        setFilteredList([...filteredList, ...nextItems])
+        setFilteredList(prevList => {
+          const nextItems = list.slice(prevList.length, prevList.length + 10)
+          return [...prevList, ...nextItems]
+        })
       }
     }
-  }
+  }, [containerRef, list])
 
   useEffect(() => {
     const container = containerRef.current
@@ -43,7 +45,7 @@ export const MovieList: React.FC<MovieListProps> = ({
         container.removeEventListener('scroll', handleScroll)
       }
     }
-  }, [containerRef])
+  }, [containerRef.current])
 
   useEffect(() => {
     const filteredList = list.filter(item =>
@@ -53,7 +55,7 @@ export const MovieList: React.FC<MovieListProps> = ({
   }, [searchQuery, list])
 
   return (
-    <div ref={containerRef} className="Scroll">
+    <div className="list-contianer" ref={containerRef}>
       <p className="listTitle">{listTitle}</p>
 
       {filteredList && filteredList.length > 0 ? (

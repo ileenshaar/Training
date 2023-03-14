@@ -8,8 +8,8 @@
 }
 
 .Scroll {
-  height: 1000px;
-  overflow-x: hidden;
+  height: 700px;
+  overflow-y: 'scroll';
 }
 
 .listTitle {
@@ -134,7 +134,7 @@
   width: 50%;
 }
 .App-link {
-  color: #61dafb;
+  color: #181b1d;
 }
 
 @keyframes App-logo-spin {
@@ -144,4 +144,8 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.lists-container {
+  display: flex;
 }

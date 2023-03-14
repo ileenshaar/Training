@@ -37,15 +37,15 @@ export const App = () => {
           onChange={e => setSearchQuery(e.target.value)}
         />
       </div>
-      <MovieList
-        listTitle={'To Watch List:'}
-        list={data.filter(item => !watchedIds.includes(item.id))}
-        addRemoveButton={'Watched'}
-        moveToWatched={moveToWatched}
-        searchQuery={searchQuery}
-      />
+      <div className="lists-container">
+        <MovieList
+          listTitle={'To Watch List:'}
+          list={data.filter(item => !watchedIds.includes(item.id))}
+          addRemoveButton={'Watched'}
+          moveToWatched={moveToWatched}
+          searchQuery={searchQuery}
+        />
 
-      <div className="right-bar">
         <MovieList
           listTitle={'Watched List:'}
           list={data.filter(item => watchedIds.includes(item.id))}
