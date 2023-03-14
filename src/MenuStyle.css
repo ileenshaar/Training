@@ -1,0 +1,63 @@
+.dropbtn {
+  background-color: #0f0b0b;
+  position: relative;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  padding-right: 20px;
+}
+
+.SearchInput {
+  width: 160px;
+  height: 35px;
+  display: inline-block;
+}
+
+.selected {
+  background-color: #6fc85e;
+}
+
+.dropdown:not(:focus-within) .dropdown-content {
+  display: none;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.show {
+  display: block;
+}
+
+.arrow {
+  position: absolute;
+  top: 40%;
+  margin-left: 15px;
+  transform: translateY(-50%) rotate(45deg); /* rotate arrow */
+  width: 10px;
+  height: 10px;
+  border-style: solid;
+  border-width: 0 4px 4px 0;
+  border-color: #121212;
+  display: inline;
+}
