@@ -1,0 +1,151 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.Scroll {
+  height: 700px;
+  overflow-y: 'scroll';
+}
+
+.listTitle {
+  font-size: 40px;
+  margin-left: 40px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  display: inline-block;
+  background-color: rgb(237, 94, 94);
+}
+.li {
+  font-size: 0px;
+}
+.input {
+  height: 50px;
+  width: 400px;
+  font-size: 15px;
+  size: 15px;
+  margin-top: 30px;
+  display: flex;
+  border: 4px solid black;
+}
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: 0.5s ease;
+  background-color: #3b3e3fb7;
+}
+
+.square:hover .overlay {
+  opacity: 1;
+}
+.avatar {
+  margin-bottom: 15px;
+  display: block;
+  width: 100%;
+  height: auto;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+.right-bar {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 50px;
+  left: 50%;
+  z-index: 9999;
+  margin-top: 90px;
+}
+.header {
+  padding: 0px;
+  text-align: center;
+  background: #ba1212;
+  color: white;
+  font-size: 30px;
+}
+.moveButton {
+  background-color: rgba(28, 1, 6, 0.748);
+  height: 40px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: rgb(162, 3, 3);
+  font-weight: 1000;
+  font-size: 17px;
+  border-color: aliceblue;
+}
+.description {
+  font-size: 20px;
+  max-width: 500px;
+  margin-top: 30px;
+  text-align: center;
+  position: relative;
+  color: rgb(244, 240, 240);
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+.title {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 30px;
+  font-weight: bold;
+  color: rgb(55, 9, 9);
+  position: relative;
+  left: 50%;
+  margin-top: 10%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.square {
+  border: 8px solid rgba(2, 2, 2, 0.753);
+  font-weight: bold;
+  margin-bottom: 50px;
+  border-block-color: rgb(225, 53, 53);
+  background-color: rgba(69, 25, 25, 0.368);
+  position: relative;
+  width: 25%;
+  box-shadow: 5px 5px 5px 5px;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+.container {
+  position: relative;
+  width: 50%;
+}
+.App-link {
+  color: #181b1d;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.lists-container {
+  display: flex;
+}
