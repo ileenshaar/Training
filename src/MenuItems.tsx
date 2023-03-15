@@ -1,15 +1,15 @@
 export const MenuItems = [
   {
     id: '0',
-    Option: 'A'
+    Option: 'Akpjkpj'
   },
   {
     id: '1',
-    Option: 'B'
+    Option: 'Bcdldfnml'
   },
   {
     id: '2',
-    Option: 'C'
+    Option: 'C2mlknnl4'
   },
   {
     id: '3',
@@ -17,10 +17,10 @@ export const MenuItems = [
   },
   {
     id: '4',
-    Option: 'E'
+    Option: 'Emv;f'
   },
   {
     id: '5',
-    Option: 'F'
+    Option: 'Fmlkmsdd'
   }
 ]

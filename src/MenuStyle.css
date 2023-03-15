@@ -1,8 +1,7 @@
 .dropbtn {
-  background-color: #0f0b0b;
+  background: none;
   position: relative;
   color: white;
-  padding: 16px;
   font-size: 16px;
   border: none;
   cursor: pointer;
@@ -23,10 +22,6 @@
 
 .selected {
   background-color: #6fc85e;
-}
-
-.dropdown:not(:focus-within) .dropdown-content {
-  display: none;
 }
 
 .dropdown-content {

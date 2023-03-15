@@ -1,26 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import './MenuStyle.css'
 import { MenuItems } from './MenuItems'
+//import { placeholder } from '@babel/types'
 
 export const Menu = () => {
-  const [ChoosenOption, setChoosenOption] = useState('type..')
+  const [ChosenOption, setChosenOption] = useState('type..')
   const [SearchQueryMenu, setSearchQueryMenu] = useState('')
   const [showDropdown, setShowDropdown] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(-1)
   const [filteredItems, setfilteredItems] = useState(MenuItems)
   const [InputClicked, setInputClicked] = useState(false)
 
-  useEffect(() => {
-    const filteredMenuItems = MenuItems.filter(item =>
-      item.Option.toLowerCase().includes(SearchQueryMenu.toLowerCase())
-    )
-    setfilteredItems(filteredMenuItems)
-    setInputClicked(false)
-  }, [SearchQueryMenu, MenuItems])
-
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown)
+    setSearchQueryMenu('')
   }
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowUp') {
@@ -36,7 +31,7 @@ export const Menu = () => {
       } else if (e.key === 'Enter') {
         e.preventDefault()
         if (selectedIndex >= 0 && selectedIndex < filteredItems.length) {
-          setChoosenOption(filteredItems[selectedIndex].Option)
+          setChosenOption(filteredItems[selectedIndex].Option)
         }
         setShowDropdown(false)
       }
@@ -44,8 +39,10 @@ export const Menu = () => {
 
     if (showDropdown) {
       window.addEventListener('keydown', handleKeyDown)
+      setInputClicked(true)
     } else {
       window.removeEventListener('keydown', handleKeyDown)
+      setInputClicked(false)
     }
 
     return () => {
@@ -53,46 +50,46 @@ export const Menu = () => {
     }
   }, [showDropdown, selectedIndex])
 
+  useEffect(() => {
+    const filteredMenuItems = MenuItems.filter(item =>
+      item.Option.toLowerCase().includes(SearchQueryMenu.toLowerCase())
+    )
+    setfilteredItems(filteredMenuItems)
+  }, [SearchQueryMenu, MenuItems, ChosenOption])
+
   return (
     <div>
       <div className="dropdown">
-        <button
-          className="dropbtn"
-          onClick={toggleDropdown}
-          onKeyDown={e => e.key === 'Enter'}
-        >
-          <input
-            type="text"
-            placeholder={InputClicked ? '' : ChoosenOption}
-            className="SearchInput"
-            onChange={e => setSearchQueryMenu(e.target.value)}
-            // value={SearchQueryMenu}
-            onClick={() => {
-              setInputClicked(true)
-            }}
-          />
+        <input
+          type="text"
+          value={InputClicked ? SearchQueryMenu : ChosenOption}
+          onFocus={() => setSearchQueryMenu('')}
+          className="SearchInput"
+          onChange={e => setSearchQueryMenu(e.target.value)}
+        />
+        <div className={`dropdown-content ${showDropdown ? 'show' : ''}`}>
+          {showDropdown &&
+            filteredItems.map((item, index) => (
+              <a
+                key={item.id}
+                className={selectedIndex == index ? 'selected' : ''}
+                onClick={() => {
+                  setChosenOption(item.Option)
+                  setInputClicked(false)
+                  setShowDropdown(false)
+                }}
+                onMouseOver={() => setSelectedIndex(index)}
+              >
+                {item.Option}
+              </a>
+            ))}
+        </div>
+        <button className="dropbtn" onClick={toggleDropdown}>
           <span className="arrow"></span>
-
-          <div className={`dropdown-content ${showDropdown ? 'show' : ''}`}>
-            {showDropdown &&
-              filteredItems.map((item, index) => (
-                <a
-                  key={item.id}
-                  className={selectedIndex == index ? 'selected' : ''}
-                  onClick={() => {
-                    setChoosenOption(item.Option)
-                    setInputClicked(false)
-                    setShowDropdown(false)
-                  }}
-                  onMouseOver={() => setSelectedIndex(index)}
-                >
-                  {item.Option}
-                </a>
-              ))}
-          </div>
         </button>
       </div>
     </div>
   )
 }
+
 export default Menu
