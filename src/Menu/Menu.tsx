@@ -9,7 +9,7 @@ export const Menu = () => {
   const [showDropdown, setShowDropdown] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(-1)
   const [filteredItems, setfilteredItems] = useState(MenuItems)
-  const [InputClicked, setInputClicked] = useState(false)
+  const [emptySearchQuery, setemptySearchQuery] = useState(false)
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown)
@@ -39,10 +39,10 @@ export const Menu = () => {
 
     if (showDropdown) {
       window.addEventListener('keydown', handleKeyDown)
-      setInputClicked(true)
+      setemptySearchQuery(true)
     } else {
       window.removeEventListener('keydown', handleKeyDown)
-      setInputClicked(false)
+      setemptySearchQuery(false)
     }
 
     return () => {
@@ -55,14 +55,14 @@ export const Menu = () => {
       item.Option.toLowerCase().includes(SearchQueryMenu.toLowerCase())
     )
     setfilteredItems(filteredMenuItems)
-  }, [SearchQueryMenu, MenuItems, ChosenOption])
+  }, [SearchQueryMenu, MenuItems])
 
   return (
     <div>
       <div className="dropdown">
         <input
           type="text"
-          value={InputClicked ? SearchQueryMenu : ChosenOption}
+          value={emptySearchQuery ? SearchQueryMenu : ChosenOption}
           onFocus={() => setSearchQueryMenu('')}
           className="SearchInput"
           onChange={e => setSearchQueryMenu(e.target.value)}
@@ -75,7 +75,7 @@ export const Menu = () => {
                 className={selectedIndex == index ? 'selected' : ''}
                 onClick={() => {
                   setChosenOption(item.Option)
-                  setInputClicked(false)
+                  setemptySearchQuery(false)
                   setShowDropdown(false)
                 }}
                 onMouseOver={() => setSelectedIndex(index)}
