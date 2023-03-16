@@ -38,10 +38,17 @@
   padding: 16px;
   text-decoration: none;
   display: block;
+  height: 100px;
+  line-height: 30px;
+  font-size: 20px;
+  box-sizing: border-box;
 }
 
 .show {
   display: block;
+  overflow: auto;
+  overflow-x: hidden;
+  height: 400px;
 }
 
 .arrow {
