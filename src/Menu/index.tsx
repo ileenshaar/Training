@@ -1,169 +1,137 @@
 import React, { useEffect, useRef, useReducer } from 'react'
 import './MenuStyle.css'
 import { MenuItems } from './MenuItems'
-import { reducer } from './Reducer-hook'
-
-const initialState = {
-  option: 'Type..',
-  searchInput: '',
-  showDropdown: false,
-  selectedIndex: -1,
-  filteredItems: MenuItems,
-  emptySearchQuery: false
-}
+import { reducer, initialState } from './Reducer-hook'
+import * as actions from './Dispach'
 
 export const Menu = () => {
   const scrollerRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
   const [state, dispatch] = useReducer(reducer, initialState)
+  const {
+    option,
+    searchInput,
+    showDropdown,
+    selectedIndex,
+    filteredItems,
+    emptySearchQuery
+  } = state
 
   const toggleDropdown = () => {
-    dispatch({
-      type: 'show-Dropdown',
-      showDropdown: !state.showDropdown
-    })
-
-    dispatch({
-      type: 'search-Input',
-      searchInput: ''
-    })
+    // console.log(showDropdown)
+    dispatch(actions.toggleDropdown(!showDropdown))
+    dispatch(actions.setSearchInput(''))
+    {
+      showDropdown
+        ? dispatch(actions.setEmptySearchQuery(false))
+        : actions.setEmptySearchQuery(true) && inputRef.current
+        ? inputRef.current.focus()
+        : null
+    }
   }
 
   const handleOptionClicked = (chosenOption: string) => {
-    dispatch({
-      type: 'chosen-Option',
-      option: chosenOption
-    })
-    dispatch({
-      type: 'empty-SearchQuery',
-      emptySearchQuery: false
-    })
-    dispatch({
-      type: 'show-Dropdown',
-      showDropdown: false
-    })
+    //console.log(showDropdown)
+    if (inputRef.current) {
+      inputRef.current.blur()
+    }
+    if (scrollerRef.current) {
+      scrollerRef.current.scrollTop = 0
+    }
+    dispatch(actions.toggleDropdown(false))
+    // console.log(showDropdown)
+    dispatch(actions.setSelectedIndex(-1))
+    dispatch(actions.setOption(chosenOption))
+    dispatch(actions.setEmptySearchQuery(false))
+  }
+
+  const handleEnter = () => {
+    // console.log(showDropdown)
+    if (selectedIndex >= 0 && selectedIndex < filteredItems.length) {
+      handleOptionClicked(filteredItems[selectedIndex].text)
+    }
+  }
+
+  const handleArrowDown = () => {
+    if (selectedIndex < filteredItems.length - 1) {
+      dispatch(actions.setSelectedIndex(selectedIndex + 1))
+
+      if (selectedIndex >= 2 && scrollerRef.current)
+        scrollerRef.current.scrollTop += 100
+    }
+  }
+
+  const handleArrowUp = () => {
+    if (selectedIndex > 0) {
+      dispatch(actions.setSelectedIndex(selectedIndex - 1))
+      if (scrollerRef.current) {
+        scrollerRef.current.scrollTop -= 100
+      }
+    }
+  }
+
+  const handleKeyDown: React.KeyboardEventHandler<HTMLDivElement> = e => {
+    switch (e.key) {
+      case 'ArrowUp':
+        e.preventDefault()
+        handleArrowUp()
+        break
+      case 'ArrowDown':
+        e.preventDefault()
+        handleArrowDown()
+        break
+      case 'Enter':
+        e.preventDefault()
+        handleEnter()
+        break
+      default:
+        break
+    }
   }
 
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (scrollerRef.current) {
-        if (e.key === 'ArrowUp') {
-          e.preventDefault()
-          if (state.selectedIndex > 0) {
-            dispatch({
-              type: 'selected-Index',
-              selectedIndex: state.selectedIndex - 1
-            })
-            console.log(state.filteredItems.length)
-            scrollerRef.current.scrollTop -= 100
-          }
-        } else if (e.key === 'ArrowDown') {
-          e.preventDefault()
-          if (state.selectedIndex < state.filteredItems.length - 1) {
-            dispatch({
-              type: 'selected-Index',
-              selectedIndex: state.selectedIndex + 1
-            })
-            if (state.selectedIndex >= 2) scrollerRef.current.scrollTop += 100
-          }
-        } else if (e.key === 'Enter') {
-          e.preventDefault()
-          if (
-            state.selectedIndex >= 0 &&
-            state.selectedIndex < state.filteredItems.length
-          ) {
-            dispatch({
-              type: 'chosen-Option',
-              option: state.filteredItems[state.selectedIndex].text
-            })
-          }
-          dispatch({
-            type: 'show-Dropdown',
-            showDropdown: false
-          })
-        }
-      }
-    }
-
-    if (state.showDropdown) {
-      window.addEventListener('keydown', handleKeyDown)
-      dispatch({
-        type: 'empty-SearchQuery',
-        emptySearchQuery: true
-      })
-    } else {
-      window.removeEventListener('keydown', handleKeyDown)
-      dispatch({
-        type: 'empty-SearchQuery',
-        emptySearchQuery: false
-      })
-    }
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [state.showDropdown, state.selectedIndex])
-
-  useEffect(() => {
     const filteredMenuItems = MenuItems.filter(item =>
-      item.text.toLowerCase().includes(state.searchInput.toLowerCase())
+      item.text.toLowerCase().includes(searchInput.toLowerCase())
     )
-    dispatch({
-      type: 'filtered-Items',
-      filteredItems: filteredMenuItems
-    })
-  }, [state.searchInput, MenuItems])
+    dispatch(actions.setFilteredItems(filteredMenuItems))
+  }, [searchInput, MenuItems])
 
   return (
-    <div className="dropdown">
+    <div
+      className="dropdown"
+      onKeyDown={handleKeyDown}
+      onClick={toggleDropdown}
+    >
       <input
+        ref={inputRef}
         type="text"
-        value={state.emptySearchQuery ? state.searchInput : state.option}
-        onFocus={() =>
-          dispatch({
-            type: 'search-Input',
-            searchInput: ''
-          })
-        }
+        value={emptySearchQuery ? searchInput : option}
         className="SearchInput"
-        onChange={e =>
-          dispatch({
-            type: 'search-Input',
-            searchInput: e.target.value
-          })
-        }
+        onChange={e => dispatch(actions.setSearchInput(e.target.value))}
       />
       <div
         ref={scrollerRef}
-        className={`dropdown-content ${state.showDropdown ? 'show' : ''}`}
+        className={`dropdown-content ${showDropdown ? 'show' : ''}`}
       >
-        {state.showDropdown &&
-          state.filteredItems.map(
+        {showDropdown &&
+          filteredItems.map(
             (item: { value: string; text: string }, index: number) => (
               <a
                 key={item.value}
-                className={state.selectedIndex == index ? 'selected' : ''}
+                className={selectedIndex == index ? 'selected' : ''}
                 onClick={() => {
+                  dispatch(actions.toggleDropdown(false))
                   handleOptionClicked(item.text)
                 }}
-                onMouseOver={() =>
-                  dispatch({
-                    type: 'selected-Index',
-                    selectedIndex: index
-                  })
-                }
-                onMouseLeave={() =>
-                  dispatch({
-                    type: 'selected-Index',
-                    selectedIndex: -1
-                  })
-                }
+                onMouseOver={() => dispatch(actions.setSelectedIndex(index))}
+                onMouseLeave={() => dispatch(actions.setSelectedIndex(-1))}
               >
                 {item.text}
               </a>
             )
           )}
       </div>
-      <button className="dropbtn" onClick={toggleDropdown}>
+      <button className="dropbtn">
         <span className="arrow" />
       </button>
     </div>

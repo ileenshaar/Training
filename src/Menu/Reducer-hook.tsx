@@ -1,3 +1,6 @@
+import { MenuItems } from './MenuItems'
+import * as actions from './Dispach'
+
 interface State {
   option: string
   searchInput: string
@@ -6,45 +9,49 @@ interface State {
   filteredItems: string[]
   emptySearchQuery: boolean
 }
+
+export const initialState = {
+  option: 'Type..',
+  searchInput: '',
+  showDropdown: false,
+  selectedIndex: -1,
+  filteredItems: MenuItems,
+  emptySearchQuery: false
+}
 export const reducer = (state: State, action: any) => {
   switch (action.type) {
-    case 'chosen-Option': {
-      return {
-        ...state,
-        option: action.option
-      }
-    }
-    case 'search-Input': {
+    case actions.SET_SEARCH_INPUT:
       return {
         ...state,
         searchInput: action.searchInput
       }
-    }
-    case 'show-Dropdown': {
+    case actions.SET_OPTION:
       return {
         ...state,
-        showDropdown: action.showDropdown
+        option: action.option
       }
-    }
-    case 'selected-Index': {
+    case actions.TOGGLE_DROPDOWN:
+      return {
+        ...state,
+        showDropdown: !state.showDropdown,
+        emptySearchQuery: !state.showDropdown
+      }
+    case actions.SET_SELECTED_INDEX:
       return {
         ...state,
         selectedIndex: action.selectedIndex
       }
-    }
-    case 'filtered-Items': {
+    case actions.SET_FILTERED_ITEMS:
       return {
         ...state,
         filteredItems: action.filteredItems
       }
-    }
-    case 'empty-SearchQuery': {
+    case actions.SET_EMPTY_SEARCH_QUERY:
       return {
         ...state,
         emptySearchQuery: action.emptySearchQuery
       }
-    }
+    default:
+      return state
   }
-
-  throw Error('Unknown action: ' + action.type)
 }
