@@ -18,7 +18,6 @@ export const Menu = () => {
   } = state
 
   const toggleDropdown = () => {
-    // console.log(showDropdown)
     dispatch(actions.toggleDropdown(!showDropdown))
     dispatch(actions.setSearchInput(''))
     {
@@ -31,22 +30,18 @@ export const Menu = () => {
   }
 
   const handleOptionClicked = (chosenOption: string) => {
-    //console.log(showDropdown)
     if (inputRef.current) {
       inputRef.current.blur()
     }
-    if (scrollerRef.current) {
-      scrollerRef.current.scrollTop = 0
-    }
+
+    scrollerRef.current ? (scrollerRef.current.scrollTop = 0) : null
     dispatch(actions.toggleDropdown(false))
-    // console.log(showDropdown)
     dispatch(actions.setSelectedIndex(-1))
     dispatch(actions.setOption(chosenOption))
     dispatch(actions.setEmptySearchQuery(false))
   }
 
   const handleEnter = () => {
-    // console.log(showDropdown)
     if (selectedIndex >= 0 && selectedIndex < filteredItems.length) {
       handleOptionClicked(filteredItems[selectedIndex].text)
     }
@@ -57,7 +52,7 @@ export const Menu = () => {
       dispatch(actions.setSelectedIndex(selectedIndex + 1))
 
       if (selectedIndex >= 2 && scrollerRef.current)
-        scrollerRef.current.scrollTop += 100
+        scrollerRef.current.scrollTop += 75
     }
   }
 
@@ -65,7 +60,7 @@ export const Menu = () => {
     if (selectedIndex > 0) {
       dispatch(actions.setSelectedIndex(selectedIndex - 1))
       if (scrollerRef.current) {
-        scrollerRef.current.scrollTop -= 100
+        scrollerRef.current.scrollTop -= 75
       }
     }
   }
@@ -107,7 +102,11 @@ export const Menu = () => {
         type="text"
         value={emptySearchQuery ? searchInput : option}
         className="SearchInput"
-        onChange={e => dispatch(actions.setSearchInput(e.target.value))}
+        onChange={e => {
+          dispatch(actions.setSearchInput(e.target.value))
+          dispatch(actions.setSelectedIndex(-1))
+          scrollerRef.current ? (scrollerRef.current.scrollTop = 0) : null
+        }}
       />
       <div
         ref={scrollerRef}
