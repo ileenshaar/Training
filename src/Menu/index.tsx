@@ -19,26 +19,21 @@ export const Menu = () => {
 
   const toggleDropdown = () => {
     dispatch(actions.toggleDropdown(!showDropdown))
-    dispatch(actions.setSearchInput(''))
+    //dispatch(actions.setSearchInput(''))
+    scrollerRef.current ? (scrollerRef.current.scrollTop = 0) : null
+    //dispatch(actions.setSelectedIndex(-1))
     {
-      showDropdown
-        ? dispatch(actions.setEmptySearchQuery(false))
-        : actions.setEmptySearchQuery(true) && inputRef.current
-        ? inputRef.current.focus()
-        : null
+      showDropdown ? null : inputRef.current ? inputRef.current.focus() : null
     }
   }
 
   const handleOptionClicked = (chosenOption: string) => {
-    if (inputRef.current) {
-      inputRef.current.blur()
-    }
-
+    inputRef.current ? inputRef.current.blur() : null
     scrollerRef.current ? (scrollerRef.current.scrollTop = 0) : null
     dispatch(actions.toggleDropdown(false))
-    dispatch(actions.setSelectedIndex(-1))
+    //dispatch(actions.setSelectedIndex(-1))
     dispatch(actions.setOption(chosenOption))
-    dispatch(actions.setEmptySearchQuery(false))
+    //dispatch(actions.setEmptySearchQuery(false))
   }
 
   const handleEnter = () => {
@@ -51,7 +46,7 @@ export const Menu = () => {
     if (selectedIndex < filteredItems.length - 1) {
       dispatch(actions.setSelectedIndex(selectedIndex + 1))
 
-      if (selectedIndex >= 2 && scrollerRef.current)
+      if (selectedIndex >= 4 && scrollerRef.current)
         scrollerRef.current.scrollTop += 75
     }
   }

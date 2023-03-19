@@ -34,7 +34,9 @@ export const reducer = (state: State, action: any) => {
       return {
         ...state,
         showDropdown: !state.showDropdown,
-        emptySearchQuery: !state.showDropdown
+        emptySearchQuery: !state.showDropdown,
+        searchInput: '',
+        selectedIndex: -1
       }
     case actions.SET_SELECTED_INDEX:
       return {
