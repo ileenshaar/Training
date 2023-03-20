@@ -1,16 +1,16 @@
 import { MenuItems } from './MenuItems'
 import * as actions from './Dispach'
 
-interface State {
+export interface State {
   option: string
   searchInput: string
   showDropdown: boolean
   selectedIndex: number
-  filteredItems: string[]
+  filteredItems: object[]
   emptySearchQuery: boolean
 }
 
-export const initialState = {
+export const initialState: State = {
   option: 'Type..',
   searchInput: '',
   showDropdown: false,

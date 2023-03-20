@@ -1,13 +1,18 @@
-import React, { useEffect, useRef, useReducer } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './MenuStyle.css'
 import { MenuItems } from './MenuItems'
-import { reducer, initialState } from './Reducer-hook'
-import * as actions from './Dispach'
 
 export const Menu = () => {
   const scrollerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const [state, setState] = useState({
+    option: 'Type..',
+    searchInput: '',
+    showDropdown: false,
+    selectedIndex: -1,
+    filteredItems: [] as { value: string; text: string }[],
+    emptySearchQuery: false
+  })
   const {
     option,
     searchInput,
@@ -18,10 +23,14 @@ export const Menu = () => {
   } = state
 
   const toggleDropdown = () => {
-    dispatch(actions.toggleDropdown(!showDropdown))
-    //dispatch(actions.setSearchInput(''))
+    setState(prevState => ({
+      ...prevState,
+      showDropdown: !showDropdown,
+      emptySearchQuery: !state.showDropdown,
+      searchInput: '',
+      selectedIndex: -1
+    }))
     scrollerRef.current ? (scrollerRef.current.scrollTop = 0) : null
-    //dispatch(actions.setSelectedIndex(-1))
     {
       showDropdown ? null : inputRef.current ? inputRef.current.focus() : null
     }
@@ -30,10 +39,14 @@ export const Menu = () => {
   const handleOptionClicked = (chosenOption: string) => {
     inputRef.current ? inputRef.current.blur() : null
     scrollerRef.current ? (scrollerRef.current.scrollTop = 0) : null
-    dispatch(actions.toggleDropdown(false))
-    //dispatch(actions.setSelectedIndex(-1))
-    dispatch(actions.setOption(chosenOption))
-    //dispatch(actions.setEmptySearchQuery(false))
+    setState(prevState => ({
+      ...prevState,
+      showDropdown: false,
+      emptySearchQuery: !state.showDropdown,
+      searchInput: '',
+      selectedIndex: -1,
+      option: chosenOption
+    }))
   }
 
   const handleEnter = () => {
@@ -44,7 +57,10 @@ export const Menu = () => {
 
   const handleArrowDown = () => {
     if (selectedIndex < filteredItems.length - 1) {
-      dispatch(actions.setSelectedIndex(selectedIndex + 1))
+      setState(prevState => ({
+        ...prevState,
+        selectedIndex: prevState.selectedIndex + 1
+      }))
 
       if (selectedIndex >= 4 && scrollerRef.current)
         scrollerRef.current.scrollTop += 75
@@ -53,7 +69,10 @@ export const Menu = () => {
 
   const handleArrowUp = () => {
     if (selectedIndex > 0) {
-      dispatch(actions.setSelectedIndex(selectedIndex - 1))
+      setState(prevState => ({
+        ...prevState,
+        selectedIndex: prevState.selectedIndex - 1
+      }))
       if (scrollerRef.current) {
         scrollerRef.current.scrollTop -= 75
       }
@@ -61,17 +80,15 @@ export const Menu = () => {
   }
 
   const handleKeyDown: React.KeyboardEventHandler<HTMLDivElement> = e => {
+    e.preventDefault()
     switch (e.key) {
       case 'ArrowUp':
-        e.preventDefault()
         handleArrowUp()
         break
       case 'ArrowDown':
-        e.preventDefault()
         handleArrowDown()
         break
       case 'Enter':
-        e.preventDefault()
         handleEnter()
         break
       default:
@@ -83,7 +100,10 @@ export const Menu = () => {
     const filteredMenuItems = MenuItems.filter(item =>
       item.text.toLowerCase().includes(searchInput.toLowerCase())
     )
-    dispatch(actions.setFilteredItems(filteredMenuItems))
+    setState(prevState => ({
+      ...prevState,
+      filteredItems: filteredMenuItems
+    }))
   }, [searchInput, MenuItems])
 
   return (
@@ -98,8 +118,12 @@ export const Menu = () => {
         value={emptySearchQuery ? searchInput : option}
         className="SearchInput"
         onChange={e => {
-          dispatch(actions.setSearchInput(e.target.value))
-          dispatch(actions.setSelectedIndex(-1))
+          setState(prevState => ({
+            ...prevState,
+            searchInput: e.target.value,
+            selectedIndex: -1
+          }))
+
           scrollerRef.current ? (scrollerRef.current.scrollTop = 0) : null
         }}
       />
@@ -114,11 +138,27 @@ export const Menu = () => {
                 key={item.value}
                 className={selectedIndex == index ? 'selected' : ''}
                 onClick={() => {
-                  dispatch(actions.toggleDropdown(false))
+                  setState(prevState => ({
+                    ...prevState,
+                    showDropdown: false,
+                    emptySearchQuery: !state.showDropdown,
+                    searchInput: '',
+                    selectedIndex: -1
+                  }))
                   handleOptionClicked(item.text)
                 }}
-                onMouseOver={() => dispatch(actions.setSelectedIndex(index))}
-                onMouseLeave={() => dispatch(actions.setSelectedIndex(-1))}
+                onMouseOver={() =>
+                  setState(prevState => ({
+                    ...prevState,
+                    selectedIndex: index
+                  }))
+                }
+                onMouseLeave={() =>
+                  setState(prevState => ({
+                    ...prevState,
+                    selectedIndex: -1
+                  }))
+                }
               >
                 {item.text}
               </a>
