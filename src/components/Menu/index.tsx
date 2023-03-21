@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import './MenuStyle.css'
 import MenuItems from './MenuItems'
+import { NULL } from 'sass'
 
 export const Menu = () => {
   const scrollerRef = useRef<HTMLDivElement>(null)
@@ -76,8 +77,11 @@ export const Menu = () => {
         ...prevState,
         selectedIndex: prevState.selectedIndex + 1
       }))
-      if (selectedIndex >= 4 && scrollerRef.current)
-        scrollerRef.current.scrollTop += 75
+
+      const itemRef = document.getElementById(`item-${selectedIndex + 1}`)
+      if (itemRef) {
+        itemRef.focus()
+      }
     }
   }
 
@@ -87,8 +91,9 @@ export const Menu = () => {
         ...prevState,
         selectedIndex: prevState.selectedIndex - 1
       }))
-      if (scrollerRef.current) {
-        scrollerRef.current.scrollTop -= 75
+      const itemRef = document.getElementById(`item-${selectedIndex - 1}`)
+      if (itemRef) {
+        itemRef.focus()
       }
     }
   }
@@ -131,7 +136,6 @@ export const Menu = () => {
       <input
         ref={inputRef}
         type="text"
-        onBlur={toggleDropdown}
         value={emptySearchQuery ? searchInput : option}
         className="SearchInput"
         onChange={e => handleInputChange(e.target.value)}
@@ -144,6 +148,8 @@ export const Menu = () => {
           ? filteredItems.map(
               (item: { value: string; text: string }, index: number) => (
                 <a
+                  tabIndex={0}
+                  id={`item-${index}`}
                   key={item.value}
                   className={selectedIndex == index ? 'selected' : ''}
                   onClick={() => {
