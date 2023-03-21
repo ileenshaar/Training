@@ -1,4 +1,4 @@
-import { MenuItems } from './MenuItems'
+import MenuItems from './MenuItems'
 import * as actions from './Dispach'
 
 export interface State {

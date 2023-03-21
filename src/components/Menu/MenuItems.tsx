@@ -1,4 +1,4 @@
-export const MenuItems = [
+const MenuItems = [
   { value: 'AF', text: 'Afghanistan' },
   { value: 'AX', text: 'Åland Islands' },
   { value: 'AL', text: 'Albania' },
@@ -250,3 +250,4 @@ export const MenuItems = [
   { value: 'ZM', text: 'Zambia' },
   { value: 'ZW', text: 'Zimbabwe' }
 ]
+export default MenuItems

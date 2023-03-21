@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import './MenuStyle.css'
-import { MenuItems } from './MenuItems'
+import MenuItems from './MenuItems'
 
 export const Menu = () => {
   const scrollerRef = useRef<HTMLDivElement>(null)
@@ -13,6 +13,7 @@ export const Menu = () => {
     filteredItems: [] as { value: string; text: string }[],
     emptySearchQuery: false
   })
+
   const {
     option,
     searchInput,
@@ -26,14 +27,12 @@ export const Menu = () => {
     setState(prevState => ({
       ...prevState,
       showDropdown: !showDropdown,
-      emptySearchQuery: !state.showDropdown,
       searchInput: '',
-      selectedIndex: -1
+      selectedIndex: -1,
+      emptySearchQuery: showDropdown ? false : true
     }))
     scrollerRef.current ? (scrollerRef.current.scrollTop = 0) : null
-    {
-      showDropdown ? null : inputRef.current ? inputRef.current.focus() : null
-    }
+    showDropdown || !inputRef.current || inputRef.current.focus()
   }
 
   const handleOptionClicked = (chosenOption: string) => {
@@ -41,11 +40,27 @@ export const Menu = () => {
     scrollerRef.current ? (scrollerRef.current.scrollTop = 0) : null
     setState(prevState => ({
       ...prevState,
-      showDropdown: false,
-      emptySearchQuery: !state.showDropdown,
-      searchInput: '',
       selectedIndex: -1,
-      option: chosenOption
+      showDropdown: false,
+      option: chosenOption,
+      emptySearchQuery: false,
+      searchInput: ''
+    }))
+  }
+
+  const handleInputChange = (value: string) => {
+    setState(prevState => ({
+      ...prevState,
+      searchInput: value,
+      selectedIndex: -1
+    }))
+    scrollerRef.current ? (scrollerRef.current.scrollTop = 0) : null
+  }
+
+  const MouseHover = (index: number) => {
+    setState(prevState => ({
+      ...prevState,
+      selectedIndex: index
     }))
   }
 
@@ -61,7 +76,6 @@ export const Menu = () => {
         ...prevState,
         selectedIndex: prevState.selectedIndex + 1
       }))
-
       if (selectedIndex >= 4 && scrollerRef.current)
         scrollerRef.current.scrollTop += 75
     }
@@ -80,15 +94,17 @@ export const Menu = () => {
   }
 
   const handleKeyDown: React.KeyboardEventHandler<HTMLDivElement> = e => {
-    e.preventDefault()
     switch (e.key) {
       case 'ArrowUp':
+        e.preventDefault()
         handleArrowUp()
         break
       case 'ArrowDown':
+        e.preventDefault()
         handleArrowDown()
         break
       case 'Enter':
+        e.preventDefault()
         handleEnter()
         break
       default:
@@ -115,55 +131,32 @@ export const Menu = () => {
       <input
         ref={inputRef}
         type="text"
+        onBlur={toggleDropdown}
         value={emptySearchQuery ? searchInput : option}
         className="SearchInput"
-        onChange={e => {
-          setState(prevState => ({
-            ...prevState,
-            searchInput: e.target.value,
-            selectedIndex: -1
-          }))
-
-          scrollerRef.current ? (scrollerRef.current.scrollTop = 0) : null
-        }}
+        onChange={e => handleInputChange(e.target.value)}
       />
       <div
         ref={scrollerRef}
         className={`dropdown-content ${showDropdown ? 'show' : ''}`}
       >
-        {showDropdown &&
-          filteredItems.map(
-            (item: { value: string; text: string }, index: number) => (
-              <a
-                key={item.value}
-                className={selectedIndex == index ? 'selected' : ''}
-                onClick={() => {
-                  setState(prevState => ({
-                    ...prevState,
-                    showDropdown: false,
-                    emptySearchQuery: !state.showDropdown,
-                    searchInput: '',
-                    selectedIndex: -1
-                  }))
-                  handleOptionClicked(item.text)
-                }}
-                onMouseOver={() =>
-                  setState(prevState => ({
-                    ...prevState,
-                    selectedIndex: index
-                  }))
-                }
-                onMouseLeave={() =>
-                  setState(prevState => ({
-                    ...prevState,
-                    selectedIndex: -1
-                  }))
-                }
-              >
-                {item.text}
-              </a>
+        {showDropdown
+          ? filteredItems.map(
+              (item: { value: string; text: string }, index: number) => (
+                <a
+                  key={item.value}
+                  className={selectedIndex == index ? 'selected' : ''}
+                  onClick={() => {
+                    handleOptionClicked(item.text)
+                  }}
+                  onMouseOver={() => MouseHover(index)}
+                  onMouseLeave={() => MouseHover(-1)}
+                >
+                  {item.text}
+                </a>
+              )
             )
-          )}
+          : null}
       </div>
       <button className="dropbtn">
         <span className="arrow" />
@@ -171,5 +164,4 @@ export const Menu = () => {
     </div>
   )
 }
-
 export default Menu

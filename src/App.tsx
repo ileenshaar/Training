@@ -3,7 +3,7 @@ import { fetchMovies, movieData } from './api'
 import { MovieData } from './types'
 import { MovieList } from './components/MovieList'
 import './App.css'
-import Menu from './components/Menu'
+import Menu from './components/Menu/index'
 
 export const App = () => {
   const [searchQuery, setSearchQuery] = useState('')
