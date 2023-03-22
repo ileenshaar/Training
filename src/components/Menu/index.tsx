@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import './MenuStyle.css'
 import MenuItems from './MenuItems'
-import { NULL } from 'sass'
 
 export const Menu = () => {
   const scrollerRef = useRef<HTMLDivElement>(null)
@@ -23,6 +22,21 @@ export const Menu = () => {
     filteredItems,
     emptySearchQuery
   } = state
+
+  const dropdownList = document.getElementById('myDropdownList')
+  document.addEventListener('click', function (event) {
+    if (dropdownList) {
+      if (dropdownList && !dropdownList.contains(event.target as Node)) {
+        setState(prevState => ({
+          ...prevState,
+          showDropdown: false,
+          emptySearchQuery: false,
+          searchInput: '',
+          selectedIndex: -1
+        }))
+      }
+    }
+  })
 
   const toggleDropdown = () => {
     setState(prevState => ({
@@ -129,6 +143,7 @@ export const Menu = () => {
 
   return (
     <div
+      id="myDropdownList"
       className="dropdown"
       onKeyDown={handleKeyDown}
       onClick={toggleDropdown}
