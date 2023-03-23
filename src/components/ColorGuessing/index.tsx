@@ -8,6 +8,7 @@ export const ColorGuessing = () => {
     getButtonColors(Colors, currentColor)
   )
   const [count, setCount] = useState(0)
+  const [wrongGuessesCount, setWrongGuessesCount] = useState(0)
 
   function getButtonColors(
     Colors: { name: string; hex: string }[],
@@ -26,11 +27,20 @@ export const ColorGuessing = () => {
     return allButtonColors
   }
 
+  function handleReset() {
+    const newColor = Colors[Math.floor(Math.random() * Colors.length)]
+    setCurrentColor(newColor)
+    setButtonColors(getButtonColors(Colors, newColor))
+    setCount(0)
+    setWrongGuessesCount(0)
+  }
+
   function handleButtonClick(color: string) {
     setCount(count + 1)
     if (color === currentColor.hex) {
       alert('You guessed correctly!')
     } else {
+      setWrongGuessesCount(wrongGuessesCount + 1)
       alert('Sorry, that is incorrect.')
     }
     // Change the current color and button colors
@@ -59,6 +69,16 @@ export const ColorGuessing = () => {
             {color.hex}
           </button>
         ))}
+      </div>
+      <div className="reset-container">
+        <button
+          className={`${
+            count > 5 && wrongGuessesCount == 0 ? 'show' : 'disappear'
+          }`}
+          onClick={handleReset}
+        >
+          Reset
+        </button>
       </div>
     </div>
   )

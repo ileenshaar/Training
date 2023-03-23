@@ -17,7 +17,7 @@
 }
 
 .button-container button {
-  margin-right: 2%; /* add some space between the buttons */
+  margin-right: 4%; /* add some space between the buttons */
 }
 
 .color-button {
@@ -30,4 +30,25 @@
   color: brown;
   font-weight: bold;
   background-color: blanchedalmond;
+}
+
+.reset-container {
+  display: flex;
+  justify-content: center;
+
+  margin-top: 20px;
+  height: 30px;
+  margin-left: 6%;
+}
+
+.show {
+  display: flex;
+  font-weight: bolder;
+  width: 70px;
+  left: 0;
+  margin-top: 5px;
+  font-size: 50%;
+}
+.disappear {
+  display: none;
 }
