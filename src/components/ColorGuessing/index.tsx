@@ -3,13 +3,21 @@ import Colors from './Colors.'
 import './index.css'
 
 export const ColorGuessing = () => {
-  const [currentColor, setCurrentColor] = useState(Colors[0])
-  const [buttonColors, setButtonColors] = useState(
-    getButtonColors(Colors, currentColor)
-  )
-  const [count, setCount] = useState(0)
-  const [count2, setCount2] = useState(-1)
-  const [wrongGuesses, setWrongGuesses] = useState<string[]>([])
+  const [state, setState] = useState({
+    currentColor: Colors[0],
+    buttonColors: getButtonColors(Colors, Colors[0]),
+    guessesCount: 0,
+    wrongGuessesindex: -1,
+    wrongGuesses: [] as string[]
+  })
+
+  const {
+    currentColor,
+    buttonColors,
+    guessesCount,
+    wrongGuessesindex,
+    wrongGuesses
+  } = state
 
   function getButtonColors(
     Colors: { name: string; hex: string }[],
@@ -30,10 +38,14 @@ export const ColorGuessing = () => {
 
   const handleReset = () => {
     const newColor = Colors[Math.floor(Math.random() * Colors.length)]
-    setCurrentColor(newColor)
-    setButtonColors(getButtonColors(Colors, newColor))
-    setCount(0)
-    setWrongGuesses([])
+    setState(prevState => ({
+      ...prevState,
+      currentColor: newColor,
+      buttonColors: getButtonColors(Colors, newColor),
+      guessesCount: 0,
+      wrongGuesses: [],
+      wrongGuessesindex: -1
+    }))
   }
 
   const handleWrongGuesses = (index: number) => {
@@ -43,29 +55,50 @@ export const ColorGuessing = () => {
     const newColorset = Colors.filter(
       color => color.hex === wrongGuesses[index]
     )
-    setCurrentColor(newColorset[0])
-    setButtonColors(getButtonColors(Colors, newColorset[0]))
+    setState(prevState => ({
+      ...prevState,
+      currentColor: newColorset[0],
+      buttonColors: getButtonColors(Colors, newColorset[0])
+    }))
   }
 
   const handleButtonClick = (color: string) => {
-    setCount(count + 1)
+    setState(prevState => ({
+      ...prevState,
+
+      guessesCount: prevState.guessesCount + 1
+    }))
     if (color === currentColor.hex) {
       alert('You guessed correctly!')
     } else {
-      setWrongGuesses([...wrongGuesses, currentColor.hex])
+      setState(prevState => ({
+        ...prevState,
+        wrongGuesses: [...prevState.wrongGuesses, currentColor.hex]
+      }))
+
       alert('Sorry, that is incorrect.')
     }
-    if (count < 5) {
+    if (guessesCount < 4) {
       const newColorset = Colors.filter(color => color.hex !== currentColor.hex)
       const newColor =
         newColorset[Math.floor(Math.random() * newColorset.length)]
-      setCurrentColor(newColor)
-      setButtonColors(getButtonColors(Colors, newColor))
+      setState(prevState => ({
+        ...prevState,
+        currentColor: newColor,
+        buttonColors: getButtonColors(Colors, newColor)
+      }))
     } else {
-      setCount2(count2 + 1)
-      count2 < wrongGuesses.length - 1
-        ? handleWrongGuesses(count2 + 1)
-        : setWrongGuesses([])
+      setState(prevState => ({
+        ...prevState,
+
+        wrongGuessesindex: prevState.wrongGuessesindex + 1
+      }))
+      wrongGuessesindex < wrongGuesses.length - 1
+        ? handleWrongGuesses(wrongGuessesindex + 1)
+        : setState(prevState => ({
+            ...prevState,
+            wrongGuesses: []
+          }))
     }
   }
 
@@ -73,7 +106,9 @@ export const ColorGuessing = () => {
     <div>
       <div
         className={`${
-          count >= 5 && wrongGuesses.length == 0 ? 'disappear' : 'color-box'
+          guessesCount >= 5 && wrongGuesses.length == 0
+            ? 'disappear'
+            : 'color-box'
         }`}
         style={{ backgroundColor: currentColor.hex }}
       ></div>
@@ -82,7 +117,7 @@ export const ColorGuessing = () => {
           <button
             key={color.hex}
             className={`${
-              count >= 5 && wrongGuesses.length == 0
+              guessesCount >= 5 && wrongGuesses.length == 0
                 ? 'disappear'
                 : 'color-button'
             }`}
@@ -92,10 +127,17 @@ export const ColorGuessing = () => {
           </button>
         ))}
       </div>
+      <div
+        className={`${
+          guessesCount >= 5 && wrongGuesses.length == 0 ? '' : 'disappear'
+        }`}
+      >
+        All guesses are correct
+      </div>
       <div className="reset-container">
         <button
           className={`${
-            count >= 5 && wrongGuesses.length == 0 ? 'show' : 'disappear'
+            guessesCount >= 5 && wrongGuesses.length == 0 ? 'show' : 'disappear'
           }`}
           onClick={handleReset}
         >
@@ -104,7 +146,7 @@ export const ColorGuessing = () => {
       </div>
       <div
         className={`${
-          count > 5 && wrongGuesses.length != 0 ? ' ' : 'disappear'
+          guessesCount > 5 && wrongGuesses.length != 0 ? ' ' : 'disappear'
         }`}
       >
         Try guessing again{' '}
