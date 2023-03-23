@@ -1,0 +1,33 @@
+.color-box {
+  position: relative;
+  top: 0;
+  width: 300px;
+  height: 150px;
+  left: 50%;
+  border: 3px solid rgba(69, 68, 68, 0.753);
+}
+.button-container {
+  position: relative;
+  display: flex; /* display the list items as flex items */
+  list-style: none; /* remove the default bullet points */
+  margin: 0;
+  padding: 0;
+  left: 50%;
+  width: 400px;
+}
+
+.button-container button {
+  margin-right: 2%; /* add some space between the buttons */
+}
+
+.color-button {
+  display: inline-block; /* display the buttons in a line */
+  padding: 5px 20px;
+  margin-top: 5%;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: brown;
+  font-weight: bold;
+  background-color: blanchedalmond;
+}
