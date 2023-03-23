@@ -35,7 +35,9 @@ export const ColorGuessing = () => {
     }
     // Change the current color and button colors
     if (count < 5) {
-      const newColor = Colors[Math.floor(Math.random() * Colors.length)]
+      const newColorset = Colors.filter(color => color.hex !== currentColor.hex)
+      const newColor =
+        newColorset[Math.floor(Math.random() * newColorset.length)]
       setCurrentColor(newColor)
       setButtonColors(getButtonColors(Colors, newColor))
     }
