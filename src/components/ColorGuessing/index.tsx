@@ -23,7 +23,8 @@ export const ColorGuessing = () => {
     currentColor: { name: string; hex: string }
   ) {
     console.log(currentColor)
-
+    const boxColor = document.getElementById('colorBox')
+    boxColor ? (boxColor.style.backgroundColor = currentColor.hex) : null
     const otherColors = Colors.filter(color => color.hex !== currentColor.hex)
     const shuffledColors = otherColors.sort(() => 0.5 - Math.random())
     const buttonColors = shuffledColors.slice(0, 2)
@@ -75,8 +76,6 @@ export const ColorGuessing = () => {
   }
 
   useEffect(() => {
-    const boxColor = document.getElementById('colorBox')
-    boxColor ? (boxColor.style.backgroundColor = currentColor.hex) : null
     if (guessesCount <= 5 && guessesCount > 1) {
       const newColorset = Colors.filter(color => color.hex !== currentColor.hex)
       const newColor =
@@ -101,11 +100,10 @@ export const ColorGuessing = () => {
             wrongGuesses: []
           }))
     }
-  }, [guessesCount, currentColor])
+  }, [guessesCount])
 
   return (
     <div className="background">
-      <p>{currentColor.hex}</p>
       {guessesCount > 5 && wrongGuesses.length == 0 ? null : (
         <>
           <div id="colorBox" className="color-box" />
