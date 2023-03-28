@@ -3,6 +3,7 @@ import { fetchMovies, movieData } from './api'
 import { MovieData } from './types'
 import { MovieList } from './components/MovieList'
 import './App.css'
+import ColorGuessing from './components/ColorGuessing/index'
 
 export const App = () => {
   const [searchQuery, setSearchQuery] = useState('')
@@ -29,6 +30,7 @@ export const App = () => {
   return (
     <div>
       <div className="header">
+        <ColorGuessing />
         <input
           placeholder="search"
           className="input"

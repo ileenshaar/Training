@@ -1,0 +1,64 @@
+.color-box {
+  position: relative;
+  top: 0;
+  width: 360px;
+  height: 150px;
+  left: 40%;
+  border: 4px solid brown;
+  background-color: white;
+}
+.button-container {
+  position: relative;
+  display: flex; /* display the list items as flex items */
+  list-style: none; /* remove the default bullet points */
+  margin: 0;
+  padding: 0;
+  left: 40%;
+  max-width: 230px;
+}
+
+.button-container button {
+  margin-right: 7%; /* add some space between the buttons */
+}
+
+.color-button {
+  display: inline-block; /* display the buttons in a line */
+  padding: 5px 20px;
+  margin-top: 5%;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: black;
+  font-weight: bold;
+  font-size: large;
+  background-color: brown;
+}
+
+.reset-container {
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+  margin-left: 6%;
+}
+
+.show {
+  position: relative;
+  display: flex;
+  font-weight: bolder;
+  height: 40px;
+  width: 100px;
+  left: 0;
+  font-size: 100%;
+  color: black;
+  background-color: brown;
+}
+.disappear {
+  display: none;
+}
+.background {
+  background-color: rgb(29, 27, 27);
+  height: fit-content;
+}
+.sentence {
+  margin-left: 22%;
+}
