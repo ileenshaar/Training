@@ -5,6 +5,7 @@
   height: 150px;
   left: 40%;
   border: 4px solid brown;
+  background-color: white;
 }
 .button-container {
   position: relative;
@@ -59,5 +60,5 @@
   height: fit-content;
 }
 .sentence {
-  margin-left: 21%;
+  margin-left: 22%;
 }
