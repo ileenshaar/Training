@@ -7,14 +7,14 @@ export const ColorGuessing = () => {
     currentColor: Colors[0],
     buttonColors: getButtonColors(Colors, Colors[0]),
     guessesCount: 1,
-    wrongGuessesindex: -1,
+    wrongGuessesIndex: -1,
     wrongGuesses: [] as string[]
   })
   const {
     currentColor,
     buttonColors,
     guessesCount,
-    wrongGuessesindex,
+    wrongGuessesIndex,
     wrongGuesses
   } = state
 
@@ -22,8 +22,8 @@ export const ColorGuessing = () => {
     Colors: { name: string; hex: string }[],
     currentColor: { name: string; hex: string }
   ) {
-    const boxColor = document.getElementById('colorBox')
-    boxColor ? (boxColor.style.backgroundColor = currentColor.hex) : null
+    console.log(currentColor)
+
     const otherColors = Colors.filter(color => color.hex !== currentColor.hex)
     const shuffledColors = otherColors.sort(() => 0.5 - Math.random())
     const buttonColors = shuffledColors.slice(0, 2)
@@ -42,7 +42,7 @@ export const ColorGuessing = () => {
       buttonColors: getButtonColors(Colors, newColor),
       guessesCount: 1,
       wrongGuesses: [],
-      wrongGuessesindex: -1
+      wrongGuessesIndex: -1
     }))
   }
 
@@ -60,7 +60,6 @@ export const ColorGuessing = () => {
   const handleButtonClick = (color: string) => {
     setState(prevState => ({
       ...prevState,
-
       guessesCount: prevState.guessesCount + 1
     }))
     if (color === currentColor.hex) {
@@ -73,8 +72,12 @@ export const ColorGuessing = () => {
 
       alert('Sorry, that is incorrect.')
     }
+  }
 
-    if (guessesCount < 5) {
+  useEffect(() => {
+    const boxColor = document.getElementById('colorBox')
+    boxColor ? (boxColor.style.backgroundColor = currentColor.hex) : null
+    if (guessesCount <= 5 && guessesCount > 1) {
       const newColorset = Colors.filter(color => color.hex !== currentColor.hex)
       const newColor =
         newColorset[Math.floor(Math.random() * newColorset.length)]
@@ -85,83 +88,56 @@ export const ColorGuessing = () => {
         buttonColors: getButtonColors(Colors, newColor)
       }))
     }
-  }
-
-  useEffect(() => {
     if (guessesCount > 5) {
-      console.log(wrongGuesses)
       setState(prevState => ({
         ...prevState,
-        wrongGuessesindex: prevState.wrongGuessesindex + 1
+        wrongGuessesIndex: prevState.wrongGuessesIndex + 1
       }))
 
-      wrongGuessesindex < wrongGuesses.length - 1
-        ? handleWrongGuesses(wrongGuessesindex + 1)
+      wrongGuessesIndex < wrongGuesses.length - 1
+        ? handleWrongGuesses(wrongGuessesIndex + 1)
         : setState(prevState => ({
             ...prevState,
             wrongGuesses: []
           }))
     }
-  }, [guessesCount])
-
-  useEffect(() => {
-    const classNames = {
-      boxColor: document.getElementById('colorBox'),
-      buttonsColor: document.querySelectorAll('.color-button'),
-      allCorrect: document.getElementById('allCorrect'),
-      reset: document.getElementById('reset'),
-      tryAgain: document.getElementById('tryAgain')
-    }
-
-    const { boxColor, buttonsColor, allCorrect, reset, tryAgain } = classNames
-
-    if (guessesCount > 5 && wrongGuesses.length == 0) {
-      if (boxColor && buttonsColor && allCorrect && reset) {
-        boxColor.className = 'disappear'
-        buttonsColor.forEach(button => button.classList.add('disappear'))
-        allCorrect.className = 'sentence'
-        reset.className = 'show'
-      }
-    } else if (boxColor && buttonsColor && allCorrect && reset) {
-      boxColor.className = 'color-box'
-      buttonsColor.forEach(button => button.classList.remove('disappear'))
-      allCorrect.className = 'disappear'
-      reset.className = 'disappear'
-    }
-    if (tryAgain) {
-      if (guessesCount > 5 && wrongGuesses.length != 0) {
-        tryAgain.classList.remove('disappear')
-      } else {
-        tryAgain.classList.add('disappear')
-      }
-    }
-  }, [wrongGuesses, guessesCount])
+  }, [guessesCount, currentColor])
 
   return (
     <div className="background">
-      <div id="colorBox" />
+      <p>{currentColor.hex}</p>
+      {guessesCount > 5 && wrongGuesses.length == 0 ? null : (
+        <>
+          <div id="colorBox" className="color-box" />
+          <div className="button-container">
+            {buttonColors.map(color => (
+              <button
+                key={color.hex}
+                className="color-button"
+                onClick={() => handleButtonClick(color.hex)}
+              >
+                {color.hex}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+      {guessesCount > 5 && wrongGuesses.length == 0 ? (
+        <>
+          <div id="allCorrect" className="sentence">
+            All guesses are correct!
+          </div>
+          <div className="reset-container">
+            <button id="reset" onClick={handleReset} className="show">
+              Reset
+            </button>
+          </div>
+        </>
+      ) : null}
 
-      <div className="button-container">
-        {buttonColors.map(color => (
-          <button
-            key={color.hex}
-            className="color-button"
-            onClick={() => handleButtonClick(color.hex)}
-          >
-            {color.hex}
-          </button>
-        ))}
-      </div>
-
-      <div id="allCorrect">All guesses are correct!</div>
-
-      <div className="reset-container">
-        <button id="reset" onClick={handleReset}>
-          Reset
-        </button>
-      </div>
-
-      <div id="tryAgain">Try guessing again </div>
+      {guessesCount > 5 && wrongGuesses.length != 0 ? (
+        <div id="tryAgain">Try guessing again </div>
+      ) : null}
     </div>
   )
 }

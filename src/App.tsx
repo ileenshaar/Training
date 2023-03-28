@@ -31,7 +31,7 @@ export const App = () => {
     <div>
       <div className="header">
         <ColorGuessing />
-        <input
+        {/* <input
           placeholder="search"
           className="input"
           type="text"
@@ -54,7 +54,7 @@ export const App = () => {
           addRemoveButton={'Remove'}
           moveToWatched={removeFromWatched}
           searchQuery={searchQuery}
-        />
+        /> */}
       </div>
     </div>
   )
