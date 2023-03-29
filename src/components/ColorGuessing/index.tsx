@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import Colors from './Colors.'
 import './index.css'
 
@@ -8,16 +8,14 @@ export const ColorGuessing = () => {
     buttonColors: getButtonColors(Colors, Colors[0]),
     guessesCount: 1,
     wrongGuessesIndex: -1,
-    wrongGuesses: [] as string[],
-    message: ''
+    wrongGuesses: [] as string[]
   })
   const {
     currentColor,
     buttonColors,
     guessesCount,
     wrongGuessesIndex,
-    wrongGuesses,
-    message
+    wrongGuesses
   } = state
 
   function getButtonColors(
@@ -46,8 +44,7 @@ export const ColorGuessing = () => {
       buttonColors: getButtonColors(Colors, newColor),
       guessesCount: 1,
       wrongGuesses: [],
-      wrongGuessesIndex: -1,
-      message: ''
+      wrongGuessesIndex: -1
     }))
   }
 
@@ -68,16 +65,14 @@ export const ColorGuessing = () => {
       guessesCount: prevState.guessesCount + 1
     }))
     if (color === currentColor.hex) {
-      setState(prevState => ({
-        ...prevState,
-        message: 'You guessed correctly!'
-      }))
+      alert('You guessed correctly!')
     } else {
       setState(prevState => ({
         ...prevState,
-        wrongGuesses: [...prevState.wrongGuesses, currentColor.hex],
-        message: 'Sorry, that is incorrect.'
+        wrongGuesses: [...prevState.wrongGuesses, currentColor.hex]
       }))
+
+      alert('Sorry, that is incorrect.')
     }
   }
 
@@ -126,7 +121,6 @@ export const ColorGuessing = () => {
           </div>
         </>
       )}
-      {message && <div>{message}</div>}
       {guessesCount > 5 && wrongGuesses.length == 0 ? (
         <>
           <div id="allCorrect" className="sentence">
