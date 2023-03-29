@@ -8,27 +8,30 @@ export const ColorGuessing = () => {
     buttonColors: getButtonColors(Colors, Colors[0]),
     guessesCount: 1,
     wrongGuessesIndex: -1,
-    wrongGuesses: [] as string[]
+    wrongGuesses: [] as string[],
+    message: ''
   })
   const {
     currentColor,
     buttonColors,
     guessesCount,
     wrongGuessesIndex,
-    wrongGuesses
+    wrongGuesses,
+    message
   } = state
 
   function getButtonColors(
     Colors: { name: string; hex: string }[],
-    currentColor: { name: string; hex: string }
+    newColor: { name: string; hex: string }
   ) {
-    console.log(currentColor)
     const boxColor = document.getElementById('colorBox')
-    boxColor ? (boxColor.style.backgroundColor = currentColor.hex) : null
-    const otherColors = Colors.filter(color => color.hex !== currentColor.hex)
+    boxColor
+      ? (boxColor.style.backgroundColor = newColor.hex)
+      : console.log(newColor.hex)
+    const otherColors = Colors.filter(color => color.hex !== newColor.hex)
     const shuffledColors = otherColors.sort(() => 0.5 - Math.random())
     const buttonColors = shuffledColors.slice(0, 2)
-    const allButtonColors = [currentColor, ...buttonColors].sort(
+    const allButtonColors = [newColor, ...buttonColors].sort(
       () => 0.5 - Math.random()
     )
 
@@ -43,7 +46,8 @@ export const ColorGuessing = () => {
       buttonColors: getButtonColors(Colors, newColor),
       guessesCount: 1,
       wrongGuesses: [],
-      wrongGuessesIndex: -1
+      wrongGuessesIndex: -1,
+      message: ''
     }))
   }
 
@@ -64,14 +68,16 @@ export const ColorGuessing = () => {
       guessesCount: prevState.guessesCount + 1
     }))
     if (color === currentColor.hex) {
-      alert('You guessed correctly!')
+      setState(prevState => ({
+        ...prevState,
+        message: 'You guessed correctly!'
+      }))
     } else {
       setState(prevState => ({
         ...prevState,
-        wrongGuesses: [...prevState.wrongGuesses, currentColor.hex]
+        wrongGuesses: [...prevState.wrongGuesses, currentColor.hex],
+        message: 'Sorry, that is incorrect.'
       }))
-
-      alert('Sorry, that is incorrect.')
     }
   }
 
@@ -104,9 +110,9 @@ export const ColorGuessing = () => {
 
   return (
     <div className="background">
+      <div id="colorBox" className="color-box" />
       {guessesCount > 5 && wrongGuesses.length == 0 ? null : (
         <>
-          <div id="colorBox" className="color-box" />
           <div className="button-container">
             {buttonColors.map(color => (
               <button
@@ -120,6 +126,7 @@ export const ColorGuessing = () => {
           </div>
         </>
       )}
+      {message && <div>{message}</div>}
       {guessesCount > 5 && wrongGuesses.length == 0 ? (
         <>
           <div id="allCorrect" className="sentence">
