@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { fetchMovies, movieData } from './api'
 import { MovieData } from './types'
 import { MovieList } from './components/MovieList'
+import Sudoku from './components/Sudoku/index'
 import './App.css'
 
 export const App = () => {
@@ -28,8 +29,10 @@ export const App = () => {
 
   return (
     <div>
-      <div className="header">
-        <input
+      <Sudoku />
+      {/*  <div className="header">
+        
+         <input
           placeholder="search"
           className="input"
           type="text"
@@ -53,7 +56,7 @@ export const App = () => {
           moveToWatched={removeFromWatched}
           searchQuery={searchQuery}
         />
-      </div>
+      </div>*/}
     </div>
   )
 }
