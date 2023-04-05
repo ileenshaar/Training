@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import './style.css'
 import axios from 'axios'
-import generatePuzzle from './generatePuzzle'
 
 const Sudoku = () => {
   const [board, setBoard] = useState(
@@ -57,18 +56,6 @@ const Sudoku = () => {
       })
   }
 
-  useEffect(() => {
-    const generatedPuzzle = generatePuzzle()
-
-    const newBoard = board.map((row, rowIndex) => {
-      return row.map((_, cellIndex) => {
-        const index = rowIndex * 9 + cellIndex
-        return generatedPuzzle[index] || '.'
-      })
-    })
-    setBoard(newBoard)
-  }, [])
-
   return (
     <div>
       <div className="sudoku-grid">
@@ -94,7 +81,9 @@ const Sudoku = () => {
       </button>
 
       {nullResponse ? (
-        <div className="sentence">Numbers are not sudoku correct </div>
+        <div className="sentence">
+          The numbers do not follow the rules of sudoku{' '}
+        </div>
       ) : null}
     </div>
   )
