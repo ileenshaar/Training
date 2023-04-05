@@ -1,0 +1,68 @@
+.sudoku-grid {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  grid-template-rows: repeat(9, 1fr);
+  width: 50px;
+  position: absolute;
+  left: 35%;
+  top: 15%;
+  display: flex;
+  flex-direction: column;
+}
+
+.adjacent {
+  display: flex;
+}
+
+.sentence {
+  position: absolute;
+  left: 35%;
+  top: 80%;
+  color: red;
+  font-weight: bolder;
+  font-size: 25px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.sudoku-grid input {
+  width: 50px;
+  height: 50px;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  border: 2px solid rgb(171, 169, 169);
+}
+
+.sudoku-grid > div:nth-child(3n) > input:nth-child(-n + 4),
+.sudoku-grid > div:nth-child(3n) > input:nth-child(n + 3) {
+  border-bottom-color: rgb(130, 4, 4);
+}
+
+.sudoku-grid > div:nth-child(1) > input:nth-child(n) {
+  border-top-color: rgb(130, 4, 4);
+}
+
+.sudoku-grid > div:nth-child(n) > input:nth-child(9) {
+  border-right-color: rgb(130, 4, 4);
+}
+
+.sudoku-grid > div:nth-child(n) > input:nth-child(7),
+.sudoku-grid > div:nth-child(n) > input:nth-child(4),
+.sudoku-grid > div:nth-child(n) > input:nth-child(1) {
+  border-left-color: rgb(130, 4, 4);
+}
+
+.submitButton {
+  position: absolute;
+  width: 100px;
+  height: 50px;
+  left: 35%;
+  top: 73%;
+  border: 4px solid rgb(130, 4, 4);
+  font-weight: bolder;
+  font-size: 25px;
+}
