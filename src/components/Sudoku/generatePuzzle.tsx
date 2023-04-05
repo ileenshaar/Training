@@ -44,31 +44,22 @@ const generatePuzzle = () => {
 
   fillPuzzle(0)
 
-  // for (let i = 0; i < generatedPuzzle.length; i++) {
-  //   if (generatedPuzzle[i] === null) {
-  //     let randomNumber = Math.floor(Math.random() * 9) + 1
-  //     while (!checkBox(i, randomNumber)) {
-  //       randomNumber = Math.floor(Math.random() * 9) + 1
-  //     }
-  //     checkColumn(i, randomNumber)
-  //       ? checkRow(i, randomNumber)
-  //         ? (generatedPuzzle[i] = randomNumber)
-  //         : null
-  //       : null
-  //   }
-  // }
+  const removedElementsCount = 55
+  removeElements(generatedPuzzle, removedElementsCount)
 
-  const K = 55
-  removeElements(generatedPuzzle, K)
-
-  function removeElements(generatedPuzzle: number[], K: number): void {
+  function removeElements(
+    generatedPuzzle: number[],
+    removedElementsCount: number
+  ): void {
     const cell = Math.floor(Math.random() * 81) + 1
 
     if (generatedPuzzle[cell] !== 0) {
-      K--
+      removedElementsCount--
       generatedPuzzle[cell] = 0
     }
-    K > 0 ? removeElements(generatedPuzzle, K) : null
+    removedElementsCount > 0
+      ? removeElements(generatedPuzzle, removedElementsCount)
+      : null
   }
 
   function checkRow(index: number, randomNumber: number) {
@@ -84,6 +75,7 @@ const generatePuzzle = () => {
 
   function checkColumn(index: number, randomNumber: number) {
     const column = index % 9
+
     for (let i = 0; i < 9; i++) {
       const cellIndex = column + i * 9
       if (randomNumber === generatedPuzzle[cellIndex]) {

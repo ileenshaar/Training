@@ -14,6 +14,15 @@
   display: flex;
 }
 
+.sentence {
+  position: absolute;
+  left: 35%;
+  top: 80%;
+  color: red;
+  font-weight: bolder;
+  font-size: 25px;
+}
+
 .row {
   display: flex;
   flex-direction: row;

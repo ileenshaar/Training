@@ -8,6 +8,8 @@ const Sudoku = () => {
     Array.from({ length: 9 }, () => Array.from({ length: 9 }, () => '.'))
   )
 
+  const [nullResponse, setNullResponse] = useState(false)
+
   const handleOnChange = (
     rowIndex: number,
     cellIndex: number,
@@ -29,22 +31,26 @@ const Sudoku = () => {
     })
   }
 
+  const handleResponse = (solution: string) => {
+    const newBoard = board.map((row, rowIndex) => {
+      return row.map((_, cellIndex) => {
+        const index = rowIndex * 9 + cellIndex
+        return solution[index]
+      })
+    })
+    setBoard(newBoard)
+  }
+
   const handleSubmit = () => {
     const puzzle = board.map(row => row.join('')).join('')
-    console.log(puzzle)
+
     axios
       .post('http://127.0.0.1:5000', {
         sudoku: [puzzle]
       })
       .then(response => {
         const solution = response.data.data[0].solution
-        const newBoard = board.map((row, rowIndex) => {
-          return row.map((_, cellIndex) => {
-            const index = rowIndex * 9 + cellIndex
-            return solution[index]
-          })
-        })
-        setBoard(newBoard)
+        solution !== null ? handleResponse(solution) : setNullResponse(true)
       })
       .catch(error => {
         console.error(error)
@@ -86,6 +92,10 @@ const Sudoku = () => {
       <button onClick={() => handleSubmit()} className="submitButton">
         submit
       </button>
+
+      {nullResponse ? (
+        <div className="sentence">Numbers are not sudoku correct </div>
+      ) : null}
     </div>
   )
 }
