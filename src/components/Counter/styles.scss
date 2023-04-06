@@ -7,6 +7,10 @@ body,
   font-family: Helvetica, Arial, sans-serif;
 }
 
+.message{
+  color: red;
+}
+
 button {
   background-color: $button-color;
   border: 5px solid lighten($button-color, 30%);

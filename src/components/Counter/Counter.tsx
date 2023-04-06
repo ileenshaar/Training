@@ -1,47 +1,56 @@
-import { count } from 'console'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 interface CounterProps {
   max: number
   step: number
 }
 
-const storeStateInlocalStorage = (count: number) => {
-  localStorage.setItem('counterState', JSON.stringify({ count }))
-}
+// const storeStateInlocalStorage = (count: number) => {
+//   localStorage.setItem('counterState', JSON.stringify({ count }))
+// }
 
-const getStateFromLocalStorage = () => {
-  const storage = localStorage.getItem('counterState')
-  if (storage) return JSON.parse(storage).count
-  return { count: 0 }
-}
+// const getStateFromLocalStorage = () => {
+//   const storage = localStorage.getItem('counterState')
+//   if (storage) return JSON.parse(storage).count
+//   return { count: 0 }
+// }
 
-const useLocalStorage = (initialState: number, key: string) => {
-  const get = (): number | undefined => {
-    const storage = localStorage.getItem(key)
-    if (storage) return JSON.parse(storage).value
-    return undefined
-  }
-  const [value, setValue] = useState<number>(get() ?? initialState)
+// const useLocalStorage = (initialState: number, key: string) => {
+//   const get = (): number | undefined => {
+//     const storage = localStorage.getItem(key)
+//     if (storage) return JSON.parse(storage).value
+//     return undefined
+//   }
+//   const [value, setValue] = useState<number>(get() ?? initialState)
 
-  useEffect(() => {
-    localStorage.setItem(key, JSON.stringify({ value }))
-  }, [value])
+//   useEffect(() => {
+//     localStorage.setItem(key, JSON.stringify({ value }))
+//   }, [value])
 
-  return [value, setValue] as const
-}
+//   return [value, setValue] as const
+// }
 
 const Counter = ({ max, step }: CounterProps) => {
-  const [count, setCount] = useLocalStorage(0, 'count')
+  const [count, setCount] = useState<number>(0)
+  const countRef = useRef<number>()
 
-  const increment = () => {
-    setCount((c: number) => {
-      if (c >= max) return c
-      return c + step
-    })
+  let message = ''
+  if (countRef.current !== undefined) {
+    if (countRef.current < count) {
+      message = 'Higher'
+    }
+    if (countRef.current > count) {
+      message = 'Lower'
+    }
   }
 
-  const decrement = () => setCount((c: number) => c - 1)
+  const increment = () => {
+    setCount(c => c + 1)
+  }
+
+  const decrement = () => {
+    setCount((c: number) => c - 1)
+  }
 
   const reset = () => setCount(0)
 
@@ -53,14 +62,20 @@ const Counter = ({ max, step }: CounterProps) => {
 
   useEffect(() => {
     document.title = `Counter: ${count}`
+    const id = setInterval(() => {
+      console.log(`Count: ${count}`)
+    }, 3000)
+    return () => clearInterval(id)
+    countRef.current = count
   }, [count])
 
-  useEffect(() => {
-    storeStateInlocalStorage(count)
-  }, [count])
+  // useEffect(() => {
+  //   storeStateInlocalStorage(count)
+  // }, [count])
 
   return (
     <div className="Counter">
+      <p>{message}</p>
       <p className="count">{count}</p>
       <section className="controls">
         <button
