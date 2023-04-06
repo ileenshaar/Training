@@ -1,6 +1,4 @@
 import React from 'react'
-import { render } from 'react-dom'
-
 import Counter from './Counter'
 
 import './styles.scss'
