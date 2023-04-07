@@ -65,8 +65,8 @@ const Counter = ({ max, step }: CounterProps) => {
     const id = setInterval(() => {
       console.log(`Count: ${count}`)
     }, 3000)
-    return () => clearInterval(id)
     countRef.current = count
+    return () => clearInterval(id)
   }, [count])
 
   // useEffect(() => {

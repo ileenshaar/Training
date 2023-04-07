@@ -1,37 +1,41 @@
-import React, { useState, useEffect } from 'react'
-import { fetchMovies, movieData } from './api'
-import { MovieData } from './types'
-import { MovieList } from './components/MovieList'
-import Application from './components/Counter'
+import React from 'react'
+// import { fetchMovies, movieData } from './api'
+// import { MovieData } from './types'
+// import { MovieList } from './components/MovieList'
+//import Application from './components/Counter'
+import Application from './components/Test/Application'
+import { GrudgeProvider } from './components/Test/GrudgeContext'
 import './App.css'
 
 export const App = () => {
-  const [searchQuery, setSearchQuery] = useState('')
-  const [watchedIds, setWatchedIds] = useState<number[]>([])
-  const [data, setData] = useState<MovieData[]>(movieData)
+  // const [searchQuery, setSearchQuery] = useState('')
+  // const [watchedIds, setWatchedIds] = useState<number[]>([])
+  // const [data, setData] = useState<MovieData[]>(movieData)
 
-  const moveToWatched = (id: number) => {
-    setWatchedIds([...watchedIds, id])
-  }
+  // const moveToWatched = (id: number) => {
+  //   setWatchedIds([...watchedIds, id])
+  // }
 
-  const removeFromWatched = (id: number) => {
-    setWatchedIds(watchedIds.filter(item => item !== id))
-  }
+  // const removeFromWatched = (id: number) => {
+  //   setWatchedIds(watchedIds.filter(item => item !== id))
+  // }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const jsonData = await fetchMovies()
-      setData(jsonData)
-    }
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const jsonData = await fetchMovies()
+  //     setData(jsonData)
+  //   }
 
-    fetchData()
-  }, [])
+  //   fetchData()
+  // }, [])
 
   return (
     <div>
-      <Application />
+      <GrudgeProvider>
+        <Application />
+      </GrudgeProvider>
       {/* <Sudoku /> */}
-        {/* <div className="header">
+      {/* <div className="header">
         
          <input
           placeholder="search"
