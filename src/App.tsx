@@ -3,8 +3,10 @@ import React from 'react'
 // import { MovieData } from './types'
 // import { MovieList } from './components/MovieList'
 //import Application from './components/Counter'
-import Application from './components/Test/Application'
-import { GrudgeProvider } from './components/Test/GrudgeContext'
+// import Application from './components/Test/Application'
+// import { GrudgeProvider } from './components/Test/GrudgeContext'
+import Application from './components/Star-wars-characters'
+
 import './App.css'
 
 export const App = () => {
@@ -31,9 +33,9 @@ export const App = () => {
 
   return (
     <div>
-      <GrudgeProvider>
-        <Application />
-      </GrudgeProvider>
+      {/* <GrudgeProvider> */}
+      <Application />
+      {/* </GrudgeProvider> */}
       {/* <Sudoku /> */}
       {/* <div className="header">
         
