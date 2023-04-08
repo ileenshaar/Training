@@ -5,8 +5,11 @@ import React, { useState, useEffect } from 'react'
 
 import CharacterList from './CharacterList'
 import isFunction from 'lodash/isFunction'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 import dummyData from './dummy-data'
+
+import CharacterView from './CharacterView'
 
 import './styles.scss'
 import endpoint from './endpoint'
@@ -103,21 +106,21 @@ const Application = () => {
             Fetch characters
           </button>
           <CharacterList characters={characters} />
-          {/* {loading ? <p>Loading</p> : <CharacterList characters={characters} />}
-          {error && <p className="error">{error.message}</p>} */}
         </section>
+        <Router>
+          <section className="CharacterView">
+            <Route
+              path="/characters/:id"
+              component={props => {
+                console.log(props.match.params.id)
+                return <CharacterView {...props} />
+              }}
+            />
+          </section>
+        </Router>
       </main>
     </div>
   )
 }
-
-//const rootElement = document.getElementById('root');
-
-// ReactDOM.render(
-//   <Router>
-//     <Application />
-//   </Router>,
-//   rootElement,
-// );
 
 export default Application
