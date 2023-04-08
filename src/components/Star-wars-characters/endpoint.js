@@ -1,1 +1,1 @@
-export default 'https://star-wars-character-search.glitch.me/api/characters'
+export default 'https://star-wars-character-search.glitch.me/api/'
