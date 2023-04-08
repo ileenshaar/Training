@@ -1,4 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+//import ReactDOM from 'react-dom/client';
+
+//import { BrowserRouter as Router } from 'react-router-dom';
 
 import CharacterList from './CharacterList'
 
@@ -6,28 +9,50 @@ import dummyData from './dummy-data'
 
 import './styles.scss'
 import endpoint from './endpoint'
+const useFetch = url => {
+  const [response, setResponse] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    console.log('Fetching')
+
+    setLoading(true)
+    setError(null)
+    setResponse(null)
+
+    const fetchUrl = async () => {
+      try {
+        const response = await fetch(url)
+        const data = await response.json()
+        setResponse(data)
+      } catch (error) {
+        setError(error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchUrl()
+
+    // fetch(url)
+    //   .then(response => response.json())
+    //   .then(response => {
+    //     setResponse(response)
+    //     setLoading(false)
+    //   })
+    //   .catch(error => {
+    //     setError(error)
+    //     setLoading(false)
+    //   })
+  }, [url])
+
+  return [response, loading, error]
+}
+const formatData = response => (response && response.characters) || []
 
 const Application = () => {
-  const [characters, setCharacters] = useState([])
-  const [loading, setLoading] = useState([])
-  const [error, setError] = useState([])
-
-  React.useEffect(() => {
-    setLoading(true)
-    setCharacters([])
-    setError(null)
-
-    fetch(endpoint)
-      .then(response => response.json())
-      .then(response => {
-        setLoading(false)
-        setCharacters(response.characters)
-      })
-      .catch(error => {
-        setLoading(false)
-        setError(error)
-      })
-  }, [])
+  const [response, loading, error] = useFetch(endpoint, formatData)
+  const characters = (response && response.characters) || []
 
   return (
     <div className="Application">
