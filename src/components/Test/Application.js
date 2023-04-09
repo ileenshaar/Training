@@ -1,18 +1,26 @@
-import React from 'react';
+import React, { useContext } from 'react'
 
-import Grudges from './Grudges';
-import NewGrudge from './NewGrudge';
+import Grudges from './Grudges'
+import NewGrudge from './NewGrudge'
 
-import './styles.css';
-
+import './styles.css'
+import { GrudgeContext } from './GrudgeContext'
 
 const Application = () => {
+  const { undo, isPast } = useContext(GrudgeContext)
+
   return (
     <div className="Application">
       <NewGrudge />
+      <section>
+        <button disabled={!isPast} onClick={undo}>
+          Undo
+        </button>
+        <button>Redo</button>
+      </section>
       <Grudges />
     </div>
-  );
-};
+  )
+}
 
-export default Application;
+export default Application

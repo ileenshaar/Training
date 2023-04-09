@@ -107,17 +107,11 @@ const Application = () => {
           </button>
           <CharacterList characters={characters} />
         </section>
-        <Router>
-          <section className="CharacterView">
-            <Route
-              path="/characters/:id"
-              component={props => {
-                console.log(props.match.params.id)
-                return <CharacterView {...props} />
-              }}
-            />
-          </section>
-        </Router>
+        <section className="CharacterView">
+          <Router>
+            <Route path="/characters/:id" component={CharacterView} />
+          </Router>
+        </section>
       </main>
     </div>
   )

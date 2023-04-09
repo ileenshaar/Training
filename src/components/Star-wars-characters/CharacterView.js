@@ -5,12 +5,13 @@ const CharacterView = ({ match }) => {
   const [character, setCharacter] = useState({})
 
   useEffect(() => {
+    console.log(match.params.id)
     fetch(endpoint + '/characters/' + match.params.id)
       .then(response => response.json())
       .then(response => setCharacter(response.character))
   }, [match.params.id])
 
-  console.log(character)
+  //console.log(character)
   return (
     <section className="CharacterView">
       <h2>{character.name}</h2>
