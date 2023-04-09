@@ -1,13 +1,14 @@
-import React, { useContext } from 'react'
+import React, { useContext, useReducer } from 'react'
 
 import Grudges from './Grudges'
 import NewGrudge from './NewGrudge'
 
 import './styles.css'
 import { GrudgeContext } from './GrudgeContext'
+import initialState from './initialState'
 
 const Application = () => {
-  const { undo, isPast } = useContext(GrudgeContext)
+  const { undo, isPast, redo, isFuture } = useContext(GrudgeContext)
 
   return (
     <div className="Application">
@@ -16,7 +17,9 @@ const Application = () => {
         <button disabled={!isPast} onClick={undo}>
           Undo
         </button>
-        <button>Redo</button>
+        <button disabled={!isFuture} onClick={redo}>
+          Redo
+        </button>
       </section>
       <Grudges />
     </div>
