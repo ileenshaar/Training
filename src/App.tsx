@@ -1,34 +1,37 @@
-import React, { useState, useEffect } from 'react'
-import { fetchMovies, movieData } from './api'
-import { MovieData } from './types'
-import { MovieList } from './components/MovieList'
-import './App.css'
+import React from 'react'
+// import  { useState, useEffect } from 'react'
+// import { fetchMovies, movieData } from './api'
+// import { MovieData } from './types'
+// import { MovieList } from './components/MovieList'
+// import './App.css'
+import Application from './components/ContextExample'
 
 export const App = () => {
-  const [searchQuery, setSearchQuery] = useState('')
-  const [watchedIds, setWatchedIds] = useState<number[]>([])
-  const [data, setData] = useState<MovieData[]>(movieData)
+  // const [searchQuery, setSearchQuery] = useState('')
+  // const [watchedIds, setWatchedIds] = useState<number[]>([])
+  // const [data, setData] = useState<MovieData[]>(movieData)
 
-  const moveToWatched = (id: number) => {
-    setWatchedIds([...watchedIds, id])
-  }
+  // const moveToWatched = (id: number) => {
+  //   setWatchedIds([...watchedIds, id])
+  // }
 
-  const removeFromWatched = (id: number) => {
-    setWatchedIds(watchedIds.filter(item => item !== id))
-  }
+  // const removeFromWatched = (id: number) => {
+  //   setWatchedIds(watchedIds.filter(item => item !== id))
+  // }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const jsonData = await fetchMovies()
-      setData(jsonData)
-    }
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const jsonData = await fetchMovies()
+  //     setData(jsonData)
+  //   }
 
-    fetchData()
-  }, [])
+  //   fetchData()
+  // }, [])
 
   return (
     <div>
-      <div className="header">
+      <Application />
+      {/* <div className="header">
         <input
           placeholder="search"
           className="input"
@@ -53,7 +56,7 @@ export const App = () => {
           moveToWatched={removeFromWatched}
           searchQuery={searchQuery}
         />
-      </div>
+      </div> */}
     </div>
   )
 }
