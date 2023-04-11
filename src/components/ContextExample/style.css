@@ -1,0 +1,17 @@
+.App {
+  position: absolute;
+  left: 40%;
+  top: 35%;
+  font-size: 30px;
+  line-height: 60px;
+  background-color: rgb(248, 244, 244);
+}
+
+.selector {
+  font-size: large;
+  border: 3px solid red;
+  font-weight: bolder;
+  width: 150px;
+  background-color: whitesmoke;
+  color: rgb(32, 30, 30);
+}
