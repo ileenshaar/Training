@@ -1,0 +1,59 @@
+.app {
+  position: absolute;
+  left: 37%;
+  top: 10%;
+  inline-size: 200px;
+  line-height: 90px;
+  text-align: center;
+  height: fit-content;
+  width: 450px;
+  background-color: rgb(252, 247, 241);
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 2);
+}
+
+.app h1 {
+  font-size: 50px;
+}
+
+.app button {
+  width: 40%;
+  height: 50px;
+  font-size: 25px;
+  font-weight: bolder;
+  border: 1.5px solid rgb(121, 120, 120);
+}
+
+.app input {
+  width: 78%;
+  height: 50px;
+  margin-left: -5px;
+  font-size: 20px;
+}
+
+.selected {
+  background-color: rgb(248, 87, 194);
+  color: white;
+}
+
+.submitbutton {
+  background-color: rgb(248, 87, 194);
+  color: aliceblue;
+  border-radius: 10px;
+}
+
+.sentence {
+  line-height: 0px;
+  font-size: 23px;
+}
+
+.redBorder {
+  border: solid red;
+}
+
+button:disabled,
+button[disabled] {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+  border-radius: 10px;
+}
