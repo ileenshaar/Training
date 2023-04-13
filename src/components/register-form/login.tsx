@@ -62,7 +62,7 @@ const LogIn = () => {
         className={emailErr && !validEmail.test(email) ? 'redBorder' : ''}
       />
       {emailErr && !validEmail.test(email) ? (
-        <p className="sentence">Your email is invalid</p>
+        <p className="sentence">Incorrect entry</p>
       ) : null}
 
       <input
@@ -75,6 +75,9 @@ const LogIn = () => {
         autoComplete="new-password"
         className={pwdError && !validPassword.test(password) ? 'redBorder' : ''}
       />
+      {pwdError && !validPassword.test(password) ? (
+        <p className="sentence">Incorrect entry</p>
+      ) : null}
 
       <button
         className="submitbutton"
@@ -85,7 +88,7 @@ const LogIn = () => {
         Submit
       </button>
       {email && password ? null : (
-        <p className="sentence">All fields are required</p>
+        <p className="sentence2">Please fill all required fields</p>
       )}
     </>
   )

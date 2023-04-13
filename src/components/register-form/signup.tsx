@@ -2,18 +2,31 @@ import React, { useState } from 'react'
 import { validEmail, validPassword } from './Regex'
 import './style.css'
 
+export const [state, setState] = useState({
+  firstName: '',
+  middleName: '',
+  lastName: '',
+  email: '',
+  password: '',
+  firstNameErr: false,
+  lastNameErr: false,
+  emailErr: false,
+  pwdError: false
+})
+
+export const {
+  firstName,
+  middleName,
+  lastName,
+  email,
+  password,
+  firstNameErr,
+  lastNameErr,
+  emailErr,
+  pwdError
+} = state
+
 const SignUp = () => {
-  const [state, setState] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    emailErr: false,
-    pwdError: false
-  })
-
-  const { firstName, lastName, email, password, emailErr, pwdError } = state
-
   const validateEmail = () => {
     if (!validEmail.test(email)) {
       setState(prevState => ({
@@ -50,20 +63,59 @@ const SignUp = () => {
     }))
   }
 
+  const validateFName = () => {
+    if (firstName == '') {
+      setState(prevState => ({
+        ...prevState,
+        firstNameErr: true
+      }))
+    } else {
+      setState(prevState => ({
+        ...prevState,
+        firstNameErr: false
+      }))
+    }
+  }
+
+  const validateLName = () => {
+    if (lastName == '') {
+      setState(prevState => ({
+        ...prevState,
+        lastNameErr: true
+      }))
+    } else {
+      setState(prevState => ({
+        ...prevState,
+        lastNameErr: false
+      }))
+    }
+  }
+
   return (
     <>
+      {firstNameErr && <legend>Required*</legend>}
       <input
         placeholder="First Name"
         name="firstName"
         value={firstName}
         onChange={handleChange}
+        onBlur={() => validateFName()}
       />
 
+      <input
+        placeholder="Middle Name"
+        name="middleName"
+        value={middleName}
+        onChange={handleChange}
+      />
+
+      {lastNameErr && <legend>Required*</legend>}
       <input
         placeholder="Last Name"
         name="lastName"
         value={lastName}
         onChange={handleChange}
+        onBlur={() => validateLName()}
       />
 
       <input
@@ -76,7 +128,7 @@ const SignUp = () => {
         className={emailErr && !validEmail.test(email) ? 'redBorder' : ''}
       />
       {emailErr && !validEmail.test(email) ? (
-        <p className="sentence">Your email is invalid</p>
+        <p className="sentence">Incorrect entry</p>
       ) : null}
 
       <input
@@ -90,7 +142,7 @@ const SignUp = () => {
         className={pwdError && !validPassword.test(password) ? 'redBorder' : ''}
       />
       {pwdError && !validPassword.test(password) ? (
-        <p className="sentence">Your password is invalid</p>
+        <p className="sentence">Incorrect entry</p>
       ) : null}
 
       <button
@@ -107,7 +159,7 @@ const SignUp = () => {
         Submit
       </button>
       {lastName && firstName && email && password ? null : (
-        <p className="sentence">You must fill all fields</p>
+        <p className="sentence2">Please fill all required fields</p>
       )}
     </>
   )

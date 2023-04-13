@@ -1,13 +1,13 @@
 .app {
   position: absolute;
   left: 37%;
-  top: 10%;
+  top: 5%;
   inline-size: 200px;
   line-height: 90px;
   text-align: center;
   height: fit-content;
   width: 450px;
-  background-color: rgb(252, 247, 241);
+  background-color: rgba(252, 247, 241, 0.37);
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 2);
 }
 
@@ -21,6 +21,7 @@
   font-size: 25px;
   font-weight: bolder;
   border: 1.5px solid rgb(121, 120, 120);
+  border-radius: 5px;
 }
 
 .app input {
@@ -43,7 +44,18 @@
 
 .sentence {
   line-height: 0px;
-  font-size: 23px;
+  font-size: 20px;
+  margin-top: -5px;
+  margin-right: 240px;
+  color: red;
+  padding-bottom: 20px;
+}
+
+.sentence2 {
+  line-height: 0px;
+  font-size: 20px;
+  margin-top: -5px;
+  color: #8a8989;
 }
 
 .redBorder {
@@ -54,6 +66,25 @@ button:disabled,
 button[disabled] {
   border: 1px solid #999999;
   background-color: #cccccc;
-  color: #666666;
+  color: #828080;
   border-radius: 10px;
+}
+
+.app legend {
+  border: 'none';
+  line-height: 0px;
+  margin-bottom: -7px;
+  margin-left: 40px;
+  text-align: left;
+  color: rgb(250, 40, 40);
+  font-size: smaller;
+  padding-top: 8px;
+}
+
+.mName {
+  border-style: dashed;
+}
+
+input[name='middleName'] {
+  border-style: dashed;
 }
