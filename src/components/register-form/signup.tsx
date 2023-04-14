@@ -1,32 +1,35 @@
 import React, { useState } from 'react'
 import { validEmail, validPassword } from './Regex'
 import './style.css'
-
-export const [state, setState] = useState({
-  firstName: '',
-  middleName: '',
-  lastName: '',
-  email: '',
-  password: '',
-  firstNameErr: false,
-  lastNameErr: false,
-  emailErr: false,
-  pwdError: false
-})
-
-export const {
-  firstName,
-  middleName,
-  lastName,
-  email,
-  password,
-  firstNameErr,
-  lastNameErr,
-  emailErr,
-  pwdError
-} = state
+import fillForm, { FormContextState } from './formContext'
 
 const SignUp = () => {
+  const { signUp } = fillForm() as FormContextState
+
+  const [state, setState] = useState({
+    firstName: '',
+    middleName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    firstNameErr: false,
+    lastNameErr: false,
+    emailErr: false,
+    pwdError: false
+  })
+
+  const {
+    firstName,
+    middleName,
+    lastName,
+    email,
+    password,
+    firstNameErr,
+    lastNameErr,
+    emailErr,
+    pwdError
+  } = state
+
   const validateEmail = () => {
     if (!validEmail.test(email)) {
       setState(prevState => ({
@@ -53,14 +56,6 @@ const SignUp = () => {
         pwdError: false
       }))
     }
-  }
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setState(prevState => ({
-      ...prevState,
-      [name]: value
-    }))
   }
 
   const validateFName = () => {
@@ -91,32 +86,46 @@ const SignUp = () => {
     }
   }
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setState(prevState => ({
+      ...prevState,
+      [name]: value
+    }))
+  }
+
+  const handleSubmit = () => {
+    signUp(firstName, middleName, lastName, email)
+  }
+
   return (
     <>
-      {firstNameErr && <legend>Required*</legend>}
-      <input
-        placeholder="First Name"
-        name="firstName"
-        value={firstName}
-        onChange={handleChange}
-        onBlur={() => validateFName()}
-      />
+      <div className="displayname">
+        {firstNameErr && <legend className="legend">Required*</legend>}
+        <input
+          placeholder="First Name"
+          name="firstName"
+          value={firstName}
+          onChange={handleChange}
+          onBlur={() => validateFName()}
+        />
 
-      <input
-        placeholder="Middle Name"
-        name="middleName"
-        value={middleName}
-        onChange={handleChange}
-      />
+        <input
+          placeholder="Middle Name"
+          name="middleName"
+          value={middleName}
+          onChange={handleChange}
+        />
 
-      {lastNameErr && <legend>Required*</legend>}
-      <input
-        placeholder="Last Name"
-        name="lastName"
-        value={lastName}
-        onChange={handleChange}
-        onBlur={() => validateLName()}
-      />
+        {lastNameErr && <legend className="legend">Required*</legend>}
+        <input
+          placeholder="Last Name"
+          name="lastName"
+          value={lastName}
+          onChange={handleChange}
+          onBlur={() => validateLName()}
+        />
+      </div>
 
       <input
         type="email"
@@ -147,6 +156,7 @@ const SignUp = () => {
 
       <button
         className="submitbutton"
+        onClick={handleSubmit}
         disabled={
           lastName &&
           firstName &&

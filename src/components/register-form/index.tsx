@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
+import { FormProvider } from './formContext'
 import LogIn from './login'
 import SignUp from './signup'
-import './style.css'
+import Profile from './Profile'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
-const Application = () => {
+const App = () => {
   const [logInOrSignUp, setlogInOrSignUp] = useState('Login')
-
   return (
     <div className="app">
       <h1>{logInOrSignUp} Form</h1>
@@ -28,4 +29,31 @@ const Application = () => {
   )
 }
 
-export default Application
+const AppRouter = () => {
+  return (
+    <div>
+      <Router>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <FormProvider>
+                <App />
+              </FormProvider>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <FormProvider>
+                <Profile />
+              </FormProvider>
+            }
+          />
+        </Routes>
+      </Router>
+    </div>
+  )
+}
+
+export default AppRouter

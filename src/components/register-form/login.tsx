@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import { validEmail, validPassword } from './Regex'
 import './style.css'
+import fillForm, { FormContextState } from './formContext'
 
 const LogIn = () => {
+  const { logIn } = fillForm() as FormContextState
+
   const [state, setState] = useState({
     firstName: '',
     lastName: '',
@@ -50,6 +53,10 @@ const LogIn = () => {
     }))
   }
 
+  const handleSubmit = () => {
+    logIn(email)
+  }
+
   return (
     <>
       <input
@@ -72,7 +79,6 @@ const LogIn = () => {
         value={password}
         onChange={handleChange}
         onBlur={validatePassword}
-        autoComplete="new-password"
         className={pwdError && !validPassword.test(password) ? 'redBorder' : ''}
       />
       {pwdError && !validPassword.test(password) ? (
@@ -81,6 +87,7 @@ const LogIn = () => {
 
       <button
         className="submitbutton"
+        onClick={handleSubmit}
         disabled={
           validEmail.test(email) && validPassword.test(password) ? false : true
         }

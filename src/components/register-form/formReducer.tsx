@@ -1,39 +1,34 @@
 export interface FormState {
   firstName: string
+  middleName: string
   lastName: string
   email: string
-  password: string
 }
 
 export const initialState: FormState = {
   firstName: '',
+  middleName: '',
   lastName: '',
-  email: '',
-  password: ''
+  email: ''
 }
 
 const formReducer = (state: FormState, action: any) => {
+  console.log('reducer called with action:', action)
+
   const { type, payload } = action
   switch (type) {
-    case 'UPDATE_FIRST_NAME':
+    case 'SIGN-UP':
       return {
         ...state,
-        firstName: payload
+        firstName: payload.firstName,
+        middleName: payload.middleName,
+        lastName: payload.lastName,
+        email: payload.email
       }
-    case 'UPDATE_LAST_NAME':
+    case 'LOG-IN':
       return {
         ...state,
-        lastName: payload
-      }
-    case 'UPDATE_EMAIL':
-      return {
-        ...state,
-        email: payload
-      }
-    case 'UPDATE_PASSWORD':
-      return {
-        ...state,
-        password: payload
+        email: payload.email
       }
     default:
       return state
