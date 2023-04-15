@@ -15,7 +15,8 @@ const SignUp = () => {
     firstNameErr: false,
     lastNameErr: false,
     emailErr: false,
-    pwdError: false
+    pwdError: false,
+    loading: ''
   })
 
   const {
@@ -27,8 +28,16 @@ const SignUp = () => {
     firstNameErr,
     lastNameErr,
     emailErr,
-    pwdError
+    pwdError,
+    loading
   } = state
+
+  interface SignUpResponseData {
+    firstName: string
+    middleName: string
+    lastName: string
+    email: string
+  }
 
   const validateEmail = () => {
     if (!validEmail.test(email)) {
@@ -94,12 +103,47 @@ const SignUp = () => {
     }))
   }
 
+  const signUpApi = (
+    firstName: string,
+    middleName: string,
+    lastName: string,
+    email: string
+  ): Promise<SignUpResponseData> => {
+    {
+      setState(prevState => ({
+        ...prevState,
+        loading: 'loading...'
+      }))
+
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve({ firstName, middleName, lastName, email })
+        }, 2000)
+      })
+    }
+  }
+
   const handleSubmit = () => {
-    signUp(firstName, middleName, lastName, email)
+    signUpApi(firstName, middleName, lastName, email)
+      .then((responseData: SignUpResponseData) => {
+        console.log(responseData)
+
+        signUp(
+          responseData.firstName,
+          responseData.middleName,
+          responseData.lastName,
+          responseData.email
+        )
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
 
   return (
     <>
+      <div className="loading">{loading}</div>
+
       <div className="displayname">
         {firstNameErr && <legend className="legend">Required*</legend>}
         <input

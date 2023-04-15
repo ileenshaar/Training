@@ -13,8 +13,6 @@ export const initialState: FormState = {
 }
 
 const formReducer = (state: FormState, action: any) => {
-  console.log('reducer called with action:', action)
-
   const { type, payload } = action
   switch (type) {
     case 'SIGN-UP':

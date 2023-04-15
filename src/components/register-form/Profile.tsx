@@ -12,23 +12,23 @@ const Profile = () => {
       <br />
       {firstName ? (
         middleName ? (
-          <p>
-            <div className="fullname">
+          <div>
+            <p className="fullname">
               {firstName} {middleName} {lastName}
-            </div>
+            </p>
             <br />
             <br />
             <br />
             <p className="email">{email}</p>
-          </p>
+          </div>
         ) : (
-          <p>
-            <div className="fullname">
+          <div>
+            <p className="fullname">
               {firstName} {lastName}
-            </div>
+            </p>
             <br />
             <p className="email">{email}</p>
-          </p>
+          </div>
         )
       ) : (
         <p>{email}</p>

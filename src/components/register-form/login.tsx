@@ -12,10 +12,15 @@ const LogIn = () => {
     email: '',
     password: '',
     emailErr: false,
-    pwdError: false
+    pwdError: false,
+    loading: ''
   })
 
-  const { email, password, emailErr, pwdError } = state
+  const { email, password, emailErr, pwdError, loading } = state
+
+  interface logInResponseData {
+    email: string
+  }
 
   const validateEmail = () => {
     if (!validEmail.test(email)) {
@@ -53,12 +58,37 @@ const LogIn = () => {
     }))
   }
 
+  const logInApi = (email: string): Promise<logInResponseData> => {
+    {
+      setState(prevState => ({
+        ...prevState,
+        loading: 'loading...'
+      }))
+
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve({ email })
+        }, 2000)
+      })
+    }
+  }
+
   const handleSubmit = () => {
-    logIn(email)
+    logInApi(email)
+      .then((responseData: logInResponseData) => {
+        console.log(responseData)
+
+        logIn(responseData.email)
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
 
   return (
     <>
+      <div className="loading">{loading}</div>
+
       <input
         type="email"
         placeholder="Email"
