@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { validEmail, validPassword } from './Regex'
 import './style.css'
-import fillForm, { FormContextState } from './formContext'
+import fillForm, { FormContextState } from './store'
 
 const SignUp = () => {
   const { signUp } = fillForm() as FormContextState
@@ -15,8 +15,7 @@ const SignUp = () => {
     firstNameErr: false,
     lastNameErr: false,
     emailErr: false,
-    pwdError: false,
-    loading: ''
+    pwdError: false
   })
 
   const {
@@ -28,16 +27,8 @@ const SignUp = () => {
     firstNameErr,
     lastNameErr,
     emailErr,
-    pwdError,
-    loading
+    pwdError
   } = state
-
-  interface SignUpResponseData {
-    firstName: string
-    middleName: string
-    lastName: string
-    email: string
-  }
 
   const validateEmail = () => {
     if (!validEmail.test(email)) {
@@ -103,51 +94,16 @@ const SignUp = () => {
     }))
   }
 
-  const signUpApi = (
-    firstName: string,
-    middleName: string,
-    lastName: string,
-    email: string
-  ): Promise<SignUpResponseData> => {
-    {
-      setState(prevState => ({
-        ...prevState,
-        loading: 'loading...'
-      }))
-
-      return new Promise(resolve => {
-        setTimeout(() => {
-          resolve({ firstName, middleName, lastName, email })
-        }, 2000)
-      })
-    }
-  }
-
   const handleSubmit = () => {
-    signUpApi(firstName, middleName, lastName, email)
-      .then((responseData: SignUpResponseData) => {
-        console.log(responseData)
-
-        signUp(
-          responseData.firstName,
-          responseData.middleName,
-          responseData.lastName,
-          responseData.email
-        )
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    signUp(firstName, middleName, lastName, email)
   }
 
   return (
     <>
-      <div className="loading">{loading}</div>
-
       <div className="displayname">
         {firstNameErr && <legend className="legend">Required*</legend>}
         <input
-          placeholder="First Name"
+          placeholder="First Name*"
           name="firstName"
           value={firstName}
           onChange={handleChange}
@@ -163,7 +119,7 @@ const SignUp = () => {
 
         {lastNameErr && <legend className="legend">Required*</legend>}
         <input
-          placeholder="Last Name"
+          placeholder="Last Name*"
           name="lastName"
           value={lastName}
           onChange={handleChange}
@@ -173,7 +129,7 @@ const SignUp = () => {
 
       <input
         type="email"
-        placeholder="Email"
+        placeholder="Email*"
         value={email}
         name="email"
         onChange={handleChange}
@@ -186,7 +142,7 @@ const SignUp = () => {
 
       <input
         type="password"
-        placeholder="Password"
+        placeholder="Password*"
         name="password"
         value={password}
         onChange={handleChange}

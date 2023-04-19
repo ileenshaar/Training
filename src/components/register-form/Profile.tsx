@@ -1,10 +1,9 @@
 import React from 'react'
-import fillForm from './formContext'
+import fillForm from './store'
 import './style.css'
 
 const Profile = () => {
   const { firstName, middleName, lastName, email } = fillForm()
-  console.log(email)
 
   return (
     <div className="profile">
@@ -30,8 +29,10 @@ const Profile = () => {
             <p className="email">{email}</p>
           </div>
         )
+      ) : email ? (
+        <p>{email} </p>
       ) : (
-        <p>{email}</p>
+        <p className="loading">Loading... </p>
       )}
     </div>
   )

@@ -35,8 +35,7 @@
 
 .loading {
   position: absolute;
-  top: 0;
-  left: 40%;
+  left: 46%;
   font-size: 25px;
   color: red;
   font-weight: bold;

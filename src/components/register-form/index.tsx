@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { FormProvider } from './formContext'
+import { FormProvider } from './store'
 import LogIn from './login'
 import SignUp from './signup'
 import Profile from './Profile'

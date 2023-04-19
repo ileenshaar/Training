@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { validEmail, validPassword } from './Regex'
 import './style.css'
-import fillForm, { FormContextState } from './formContext'
+import fillForm, { FormContextState } from './store'
 
 const LogIn = () => {
   const { logIn } = fillForm() as FormContextState
@@ -17,10 +17,6 @@ const LogIn = () => {
   })
 
   const { email, password, emailErr, pwdError, loading } = state
-
-  interface logInResponseData {
-    email: string
-  }
 
   const validateEmail = () => {
     if (!validEmail.test(email)) {
@@ -58,31 +54,8 @@ const LogIn = () => {
     }))
   }
 
-  const logInApi = (email: string): Promise<logInResponseData> => {
-    {
-      setState(prevState => ({
-        ...prevState,
-        loading: 'loading...'
-      }))
-
-      return new Promise(resolve => {
-        setTimeout(() => {
-          resolve({ email })
-        }, 2000)
-      })
-    }
-  }
-
   const handleSubmit = () => {
-    logInApi(email)
-      .then((responseData: logInResponseData) => {
-        console.log(responseData)
-
-        logIn(responseData.email)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    logIn(email)
   }
 
   return (
@@ -91,7 +64,7 @@ const LogIn = () => {
 
       <input
         type="email"
-        placeholder="Email"
+        placeholder="Email*"
         value={email}
         name="email"
         onChange={handleChange}
@@ -104,7 +77,7 @@ const LogIn = () => {
 
       <input
         type="password"
-        placeholder="Password"
+        placeholder="Password*"
         name="password"
         value={password}
         onChange={handleChange}
