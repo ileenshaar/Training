@@ -28,7 +28,7 @@ export const App = () => {
 
   return (
     <div>
-      <div className="header">
+      {/* <div className="header">
         <input
           placeholder="search"
           className="input"
@@ -53,7 +53,7 @@ export const App = () => {
           moveToWatched={removeFromWatched}
           searchQuery={searchQuery}
         />
-      </div>
+      </div> */}
     </div>
   )
 }

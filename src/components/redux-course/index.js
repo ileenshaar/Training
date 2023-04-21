@@ -5,20 +5,37 @@ import {
   bindActionCreators
 } from 'redux'
 
-//allows to take a set of functions,
-// create one function that will pass a value through each of them
-//compose()
+const initialSatate = { value: 0 }
 
-const makeLouder = string => string.toUpperCase()
-const repeateThreeTimes = string => string.repeat(3)
-const embolden = string => string.bold()
+const INCREMENT = 'INCREMENT'
+const ADD = 'ADD'
 
-//what compose gives for us:
-// const makeLouderRepeateThreeTimesEmbolden = string =>
-//   embolden(repeateThreeTimes(makeLouder(string)))
+const incrementAction = { type: INCREMENT }
 
-const makeLouderRepeateThreeTimesEmbolden = compose(
-  embolden,
-  repeateThreeTimes,
-  makeLouder
-)
+const increment = () => ({ type: INCREMENT })
+const add = amount => ({ type: ADD, payload: amount })
+
+const reducer = (state = initialSatate, action) => {
+  //no matter what happens nothing changes
+  //   return state
+  if (action.type === INCREMENT) {
+    return { value: state.value + 1 }
+  }
+
+  if (action.type === ADD) {
+    return { value: state.value + action.payload }
+  }
+
+  return state
+}
+
+const store = createStore(reducer)
+
+// call this func everytime the state changes
+const subscriber = () => console.log('SUBSCRIBER', store.getState())
+
+store.subscribe(subscriber)
+
+store.dispatch(increment())
+store.dispatch(increment())
+store.dispatch(add(1000))
