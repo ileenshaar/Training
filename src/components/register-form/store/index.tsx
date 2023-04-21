@@ -15,10 +15,15 @@ export interface FormState {
   email: string
 }
 
+export const Action = {
+  signUp: 'SIGN-UP',
+  logIn: 'LOG-IN'
+}
+
 const reducer = (state: FormState, action: any) => {
   const { type, payload } = action
   switch (type) {
-    case 'SIGN-UP':
+    case Action.signUp:
       return {
         ...state,
         firstName: payload.firstName,
@@ -26,7 +31,7 @@ const reducer = (state: FormState, action: any) => {
         lastName: payload.lastName,
         email: payload.email
       }
-    case 'LOG-IN':
+    case Action.logIn:
       return {
         ...state,
         email: payload.email
@@ -99,7 +104,7 @@ export const FormProvider = ({ children }: { children: React.ReactNode }) => {
       .then((responseData: SignUpResponseData) => {
         console.log(responseData)
         dispatch({
-          type: 'SIGN-UP',
+          type: Action.signUp,
           payload: {
             firstName: responseData.firstName,
             middleName: responseData.middleName,
@@ -120,7 +125,7 @@ export const FormProvider = ({ children }: { children: React.ReactNode }) => {
       .then((responseData: logInResponseData) => {
         console.log(responseData)
         dispatch({
-          type: 'LOG-IN',
+          type: Action.logIn,
           payload: {
             email: responseData.email
           }
