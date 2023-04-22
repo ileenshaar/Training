@@ -5,37 +5,34 @@ import {
   bindActionCreators
 } from 'redux'
 
-const initialSatate = { value: 0 }
+const reducer = (state = { count: 1 }) => state
 
-const INCREMENT = 'INCREMENT'
-const ADD = 'ADD'
+const monitorEnhancer = createStore => (reducer, initialState, enhancer) => {
+  const monitorReducer = (state, action) => {
+    const start = performance.now()
+    const newState = reducer(state, action)
+    const end = performance.now()
+    const diff = end - start
+    console.log(diff)
 
-const incrementAction = { type: INCREMENT }
-
-const increment = () => ({ type: INCREMENT })
-const add = amount => ({ type: ADD, payload: amount })
-
-const reducer = (state = initialSatate, action) => {
-  //no matter what happens nothing changes
-  //   return state
-  if (action.type === INCREMENT) {
-    return { value: state.value + 1 }
+    return newState
   }
 
-  if (action.type === ADD) {
-    return { value: state.value + action.payload }
-  }
-
-  return state
+  return createStore(monitorReducer, initialState, enhancer)
 }
 
-const store = createStore(reducer)
+const logEnhancer = createStore => (reducer, initialState, enhancer) => {
+  const logReducer = (state, action) => {
+    console.log('old state', state)
+    const newState = reducer(state, action)
+    console.log('new state', newState, action)
 
-// call this func everytime the state changes
-const subscriber = () => console.log('SUBSCRIBER', store.getState())
+    return newState
+  }
 
-store.subscribe(subscriber)
+  return createStore(logReducer, initialState, enhancer)
+}
 
-store.dispatch(increment())
-store.dispatch(increment())
-store.dispatch(add(1000))
+const store = createStore(reducer, compose(logEnhancer, monitorEnhancer))
+
+store.dispatch({ type: 'hello' })
