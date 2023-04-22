@@ -21,6 +21,12 @@ const monitorEnhancer = createStore => (reducer, initialState, enhancer) => {
   return createStore(monitorReducer, initialState, enhancer)
 }
 
+const logMiddleWare = store => next => action => {
+  console.log('old state', store.getState(), action)
+  next(action)
+  console.log('new state', store.getState(), action)
+}
+
 const logEnhancer = createStore => (reducer, initialState, enhancer) => {
   const logReducer = (state, action) => {
     console.log('old state', state)
@@ -33,6 +39,19 @@ const logEnhancer = createStore => (reducer, initialState, enhancer) => {
   return createStore(logReducer, initialState, enhancer)
 }
 
-const store = createStore(reducer, compose(logEnhancer, monitorEnhancer))
+const monitorMiddleware = (store = next => action => {
+  const monitorReducer = (state, action) => {
+    const start = performance.now()
+    next(action)
+    const end = performance.now()
+    const diff = end - start
+    console.log(diff)
+  }
+})
+
+let store = createStore(
+  reducer,
+  applyMiddleware(logMiddleWare, monitorMiddleware)
+)
 
 store.dispatch({ type: 'hello' })
