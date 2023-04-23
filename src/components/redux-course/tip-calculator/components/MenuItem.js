@@ -24,9 +24,8 @@ export const MenuItem = ({
   updateQuantity = () => {
     //
   },
-  remove = () => {
-    //
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  remove = () => {}
 }) => {
   return (
     <Card marginTop="space40">
