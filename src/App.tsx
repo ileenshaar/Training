@@ -3,10 +3,11 @@ import { fetchMovies, movieData } from './api'
 import { MovieData } from './types'
 import { MovieList } from './components/MovieList'
 import './App.css'
-import Application from './components/redux-course/Application'
-import { store } from './components/redux-course/store'
+import Application from './components/redux-course/tip-calculator/components/Application'
+import store from './components/redux-course/tip-calculator/store'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
+import { Theme } from '@twilio-paste/core/theme'
 
 export const App = () => {
   // const [searchQuery, setSearchQuery] = useState('')
@@ -35,32 +36,6 @@ export const App = () => {
       <Provider store={store}>
         <Application />
       </Provider>
-      {/* <div className="header">
-        <input
-          placeholder="search"
-          className="input"
-          type="text"
-          value={searchQuery}
-          onChange={e => setSearchQuery(e.target.value)}
-        />
-      </div>
-      <div className="lists-container">
-        <MovieList
-          listTitle={'To Watch List:'}
-          list={data.filter(item => !watchedIds.includes(item.id))}
-          addRemoveButton={'Watched'}
-          moveToWatched={moveToWatched}
-          searchQuery={searchQuery}
-        />
-
-        <MovieList
-          listTitle={'Watched List:'}
-          list={data.filter(item => watchedIds.includes(item.id))}
-          addRemoveButton={'Remove'}
-          moveToWatched={removeFromWatched}
-          searchQuery={searchQuery}
-        />
-      </div> */}
     </div>
   )
 }
