@@ -3,31 +3,38 @@ import { fetchMovies, movieData } from './api'
 import { MovieData } from './types'
 import { MovieList } from './components/MovieList'
 import './App.css'
+import Application from './components/redux-course/Application'
+import { store } from './components/redux-course/store'
+import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
 
 export const App = () => {
-  const [searchQuery, setSearchQuery] = useState('')
-  const [watchedIds, setWatchedIds] = useState<number[]>([])
-  const [data, setData] = useState<MovieData[]>(movieData)
+  // const [searchQuery, setSearchQuery] = useState('')
+  // const [watchedIds, setWatchedIds] = useState<number[]>([])
+  // const [data, setData] = useState<MovieData[]>(movieData)
 
-  const moveToWatched = (id: number) => {
-    setWatchedIds([...watchedIds, id])
-  }
+  // const moveToWatched = (id: number) => {
+  //   setWatchedIds([...watchedIds, id])
+  // }
 
-  const removeFromWatched = (id: number) => {
-    setWatchedIds(watchedIds.filter(item => item !== id))
-  }
+  // const removeFromWatched = (id: number) => {
+  //   setWatchedIds(watchedIds.filter(item => item !== id))
+  // }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const jsonData = await fetchMovies()
-      setData(jsonData)
-    }
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const jsonData = await fetchMovies()
+  //     setData(jsonData)
+  //   }
 
-    fetchData()
-  }, [])
+  //   fetchData()
+  // }, [])
 
   return (
     <div>
+      <Provider store={store}>
+        <Application />
+      </Provider>
       {/* <div className="header">
         <input
           placeholder="search"
