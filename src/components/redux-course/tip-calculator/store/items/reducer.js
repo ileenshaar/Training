@@ -1,3 +1,5 @@
+import { produce } from 'immer'
+
 import {
   ITEM_ADDED,
   ITEM_REMOVED,
@@ -13,9 +15,20 @@ export const initialItems = [
 ]
 
 export const reducer = (state = initialItems, action) => {
+  //takes a func that will take the object you want to mmutate,
+  //give a draft version of it so you can mutate,
+  //then it will figure out how to immutably do all the changes
   if (action.type === ITEM_ADDED) {
-    const item = { uuid: id++, quantity: 1, ...action.payload }
-    return [...state, item]
+    return produce(state, draftState => {
+      const item = {
+        uuid: id++,
+        quantity: 1,
+        name: action.payload.name,
+        price: parseInt(action.payload.price, 10)
+      }
+
+      draftState.push(item)
+    })
   }
 
   if (action.type === ITEM_REMOVED) {
@@ -23,20 +36,16 @@ export const reducer = (state = initialItems, action) => {
   }
 
   if (action.type === ITEM_PRICE_UPDATED) {
-    return state.map(item => {
-      if (item.uuid === action.payload.uuid) {
-        return { ...item, price: action.payload.price }
-      }
-      return item
+    return produce(state, draftState => {
+      const item = draftState.find(item => item.uuid === action.payload.uuid)
+      item.price = parseInt(action.payload.price, 10)
     })
   }
 
   if (action.type === ITEM_QUANTITY_UPDATED) {
-    return state.map(item => {
-      if (item.uuid === action.payload.uuid) {
-        return { ...item, quantity: action.payload.quantity }
-      }
-      return item
+    return produce(state, draftState => {
+      const item = draftState.find(item => item.uuid === action.payload.uuid)
+      item.quantity = parseInt(action.payload.quantity, 10)
     })
   }
 
