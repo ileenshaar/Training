@@ -47,6 +47,7 @@
 .square:hover .overlay {
   opacity: 1;
 }
+
 .avatar {
   margin-bottom: 15px;
   display: block;
